@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import { customerInfo } from "slices/customerSlice";
 import { getTransactionByCustomer } from "services/transaction";
 import Footer from "examples/Footer";
+import { Tag } from "antd";
 
 const Transaction = () => {
   const customer = useSelector(customerInfo);
@@ -23,7 +24,12 @@ const Transaction = () => {
       title: 'Bank',
       dataIndex: 'bank',
       width: 50,
-      ellipse: true
+      ellipse: true,
+      render: (_, record) => {
+        if (String(record?.bank).toLowerCase() !== "ibank")
+          return <Tag color="cyan">{record?.bank}</Tag>;
+        return <Tag>{record?.bank}</Tag>;
+      }
     },
     {
       title: 'Type',

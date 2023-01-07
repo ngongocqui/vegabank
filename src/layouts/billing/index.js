@@ -24,7 +24,7 @@ import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 import MasterCard from "examples/Cards/MasterCard";
-import { Button, Card, Divider, Row, Space } from "antd";
+import { Button, Card, Divider, message, Popconfirm, Row, Space } from "antd";
 import { accountInfo } from "slices/accountSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { ProFormDigit, ProFormText } from "@ant-design/pro-components";
@@ -38,6 +38,7 @@ import { updateAccountInfo } from "slices/accountSlice";
 import { customerInfo } from "slices/customerSlice";
 import SendOTP from "./components/SendOTP";
 import ReceiverForm from "./components/ReceiverForm";
+import { closeAccount } from "services/account";
 
 function Billing() {
   const dispatch = useDispatch();
@@ -54,6 +55,9 @@ function Billing() {
     receiverForm: {
       visible: false,
       account: ""
+    },
+    popconfirm: {
+      visible: false
     }
   });
 
@@ -61,17 +65,35 @@ function Billing() {
     <DashboardLayout>
       <DashboardNavbar />
       <LocaleProTable>
-        {account?.data?.map?.((it, i) => {
-          return (
-            <Card key={i}>
-              <Form initialValues={it}>
-                <ProFormText name="accountNumber" label="Account Number" disabled />
-                <ProFormText name="type" label="Type" disabled />
-                <ProFormDigit name="balance" label="Balance" disabled />
-              </Form>
-            </Card>
-          )
-        })}
+        <Space direction="vertical" style={{ width: "100%" }}>
+          {account?.data?.map?.((it, i) => {
+            return (
+              <Card key={i}>
+                <Form initialValues={it}>
+                  <ProFormText name="accountNumber" label="Account Number" disabled />
+                  <ProFormText name="type" label="Type" disabled />
+                  <ProFormDigit name="balance" label="Balance" disabled />
+                </Form>
+                <div style={{ display: 'flex', justifyContent: "flex-end" }}>
+                  <Popconfirm
+                    title="Đóng tài khoản"
+                    open={state.popconfirm.visible}
+                    onConfirm={async () => {
+                      await closeAccount(it.id);
+                      state.popconfirm.visible = false;
+                      message.success("Bạn đã đóng tài khoản");
+                    }}
+                    onCancel={() => state.popconfirm.visible = false}
+                  >
+                    <Button onClick={() => state.popconfirm.visible = true}>
+                      Đóng tài khoản
+                    </Button>
+                  </Popconfirm>
+                </div>
+              </Card>
+            )
+          })}
+        </Space>
         <Divider />
         <Space>
           <Button type="primary" onClick={() => state.napTien.visible = true}>Chuyển khoản nội bộ</Button>

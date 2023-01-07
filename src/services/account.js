@@ -22,3 +22,9 @@ export const updateBalance = (customerId, body) => {
     headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
   });
 };
+
+export const closeAccount = (customerId) => {
+  return API.patch(`account/closeAccount/${customerId}`, null, {
+    headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+  });
+};
