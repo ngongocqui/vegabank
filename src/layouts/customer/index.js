@@ -1,6 +1,6 @@
 import { ProTable } from "@ant-design/pro-components";
-import { Tag, Button } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
+import { Tag, Button, Space } from 'antd';
+import { PlusOutlined, EditOutlined } from '@ant-design/icons';
 import LocaleProTable from "components/Locale";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
@@ -9,6 +9,7 @@ import CustomerForm from "./components/CustomerForm";
 import { useReactive } from "ahooks";
 import { useRef } from "react";
 import NapTienForm from "./components/NapTienForm";
+import CreateAccountForm from "./components/CreateAccountForm";
 
 const Customer = () => {
   const actionRef = useRef();
@@ -18,6 +19,10 @@ const Customer = () => {
     },
     napTien: {
       visible: false,
+    },
+    createAccountForm: {
+      visible: false,
+      data: null
     }
   });
 
@@ -53,6 +58,21 @@ const Customer = () => {
         )
       }
     },
+    {
+      title: 'Tuỳ chỉnh',
+      valueType: 'option',
+      width: 50,
+      render: (_, record) => [
+        <Space>
+          <EditOutlined
+            onClick={() => {
+              state.createAccountForm.visible = true;
+              state.createAccountForm.data = record;
+            }}
+          />
+        </Space>
+      ]
+    }
   ];
 
   return (
@@ -95,6 +115,7 @@ const Customer = () => {
         />
         <CustomerForm state={state.customerForm} reload={() => actionRef.current?.reload()} />
         <NapTienForm state={state.napTien} reload={() => actionRef.current?.reload()} />
+        <CreateAccountForm state={state.createAccountForm} reload={() => actionRef.current?.reload()} />
       </LocaleProTable>
     </DashboardLayout>
   )

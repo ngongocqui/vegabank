@@ -67,8 +67,8 @@ const Receiver = () => {
     },
     {
       title: 'Tuỳ chỉnh',
-      dataIndex: 'option',
-      with: 100,
+      valueType: 'option',
+      width: 80,
       render: (_, record) => [
         <Space>
           <EditOutlined
@@ -77,7 +77,7 @@ const Receiver = () => {
               state.customerForm.type = "UPDATE"
               state.customerForm.data = record
             }}
-          />,
+          />
           <DeleteOutlined
             onClick={async () => {
               await deleteReceiver(record._id);

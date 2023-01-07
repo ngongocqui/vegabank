@@ -23,6 +23,12 @@ export const updateBalance = (customerId, body) => {
   });
 };
 
+export const createAccount = (body) => {
+  return API.post(`account`, body, {
+    headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+  });
+};
+
 export const closeAccount = (customerId) => {
   return API.patch(`account/closeAccount/${customerId}`, null, {
     headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },

@@ -9,9 +9,29 @@ import { customerInfo } from "slices/customerSlice";
 import { getTransactionByCustomer } from "services/transaction";
 import Footer from "examples/Footer";
 import { Tag } from "antd";
+import { useState } from "react";
 
 const Transaction = () => {
+  const [dates, setDates] = useState(null);
+  const [value, setValue] = useState([moment().startOf("month"), moment().endOf("month")]);
   const customer = useSelector(customerInfo);
+
+  const disabledDate = (current) => {
+    if (!dates) {
+      return false;
+    }
+    const tooLate = dates[0] && current.diff(dates[0], 'days') > 30;
+    const tooEarly = dates[1] && dates[1].diff(current, 'days') > 30;
+    return !!tooEarly || !!tooLate;
+  };
+
+  const onOpenChange = (open) => {
+    if (open) {
+      setDates([null, null]);
+    } else {
+      setDates(null);
+    }
+  };
 
   const columns = [
     {
@@ -42,7 +62,16 @@ const Transaction = () => {
       width: 50,
       ellipse: true,
       hideInTable: true,
-      valueType: 'dateRange'
+      valueType: 'dateRange',
+      fieldProps: {
+        allowClear: false,
+        disabledDate: disabledDate,
+        onCalendarChange: (val) => setDates(val),
+        value: dates || value,
+        onChange: (val) => setValue(val),
+        onOpenChange: onOpenChange
+      },
+      initialValue: [moment().startOf("month"), moment().endOf("month")],
     },
     {
       title: 'Type',
@@ -101,7 +130,6 @@ const Transaction = () => {
       <DashboardNavbar />
       <LocaleProTable>
         <ProTable
-          search={customer.type === 'admin'}
           columns={columns}
           rowKey={(r, i) => i}
           pagination={{
@@ -117,7 +145,7 @@ const Transaction = () => {
               delete params.date;
             }
             if (customer.type === 'admin') return await getTransaction(params);
-            return await getTransactionByCustomer(customer.id);
+            return await getTransactionByCustomer(customer.id, params);
           }}
           headerTitle={`Transaction`}
         />

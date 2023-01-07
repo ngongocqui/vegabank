@@ -12,9 +12,10 @@ export const getTransaction = async (params = {}) => {
   }
 };
 
-export const getTransactionByCustomer = async (customerId) => {
+export const getTransactionByCustomer = async (customerId, params = {}) => {
   const res = await API.get(`transaction/byCustomerId/${customerId}`, {
     headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+    params
   });
   return {
     data: res?.data?.data || [],
