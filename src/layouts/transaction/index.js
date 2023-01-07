@@ -37,6 +37,14 @@ const Transaction = () => {
       }
     },
     {
+      title: 'Thời gian',
+      dataIndex: 'date',
+      width: 50,
+      ellipse: true,
+      hideInTable: true,
+      valueType: 'dateRange'
+    },
+    {
       title: 'Type',
       dataIndex: 'type',
       width: 50,
@@ -70,7 +78,7 @@ const Transaction = () => {
       width: 100,
       key: 'from',
       ellipse: true,
-      valueType: 'date',
+      search: false,
       render: (_, record) => {
         return moment(record?.createdAt).format("DD/MM/YYYY HH:mm:ss");
       },
@@ -80,8 +88,8 @@ const Transaction = () => {
       dataIndex: 'updatedAt',
       width: 100,
       ellipse: true,
+      search: false,
       key: 'to',
-      valueType: 'date',
       render: (_, record) => {
         return moment(record?.updatedAt).format("DD/MM/YYYY HH:mm:ss");
       }
@@ -103,6 +111,11 @@ const Transaction = () => {
           params={{ customer }}
           request={async (params) => {
             delete params.customer;
+            if (params.date) {
+              params.from = params.date[0];
+              params.to = params.date[1];
+              delete params.date;
+            }
             if (customer.type === 'admin') return await getTransaction(params);
             return await getTransactionByCustomer(customer.id);
           }}
