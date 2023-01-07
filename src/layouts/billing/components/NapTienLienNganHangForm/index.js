@@ -5,13 +5,14 @@ import to from 'await-to-js';
 import { useSelector } from 'react-redux';
 import { getAccountFindOne } from 'services/account';
 import { getAccount } from 'services/account';
+import { createTransactionLinkingBank } from 'services/linking-bank';
 import { getReceiver } from 'services/receiver';
 import { createReceiver } from 'services/receiver';
 import { createTransactionByCustomer } from 'services/transaction';
 import { accountInfo } from 'slices/accountSlice';
 import { customerInfo } from 'slices/customerSlice';
 
-const NapTienForm = (props) => {
+const NapTienLienNganHangForm = (props) => {
   const [form] = Form.useForm();
   const customer = useSelector(customerInfo);
   const account = useSelector(accountInfo);
@@ -28,12 +29,13 @@ const NapTienForm = (props) => {
 
     const toAccount = form.getFieldValue("account");
 
-    const [err_1, res_1] = await to(createTransactionByCustomer({
+    const [err_1] = await to(createTransactionLinkingBank({
       fromAccount: form.getFieldValue("source"),
       toAccount,
       amount: form.getFieldValue("amount"),
       type: form.getFieldValue("type"),
-      contentTransaction: form.getFieldValue("content")
+      contentTransaction: form.getFieldValue("content"),
+      fee: 0,
     }));
 
     // console.log(res_1)
@@ -43,22 +45,9 @@ const NapTienForm = (props) => {
       return;
     }
 
-    // if (form.getFieldValue("check")) {
-    //   // post receiver
-    //   const [err_2] = await to(createReceiver({
-    //     accountNumber: form.getFieldValue("account"),
-    //     remindName: form.getFieldValue("remindName"),
-    //   }));
-
-    //   if (err_2) {
-    //     message.error(err_2?.response?.data?.message || err_2.message);
-    //     return;
-    //   }
-    // }
-
-    // message.success("Nạp tiền thành công");
+    message.success("Chuyển tiền thành công");
     onCancel();
-    await props.reload?.(res_1?.data?.data?._id, toAccount);
+    await props.reload?.();
   };
 
   const onCancel = () => {
@@ -68,7 +57,7 @@ const NapTienForm = (props) => {
 
   return (
     <Modal
-      title="Chuyển tiền nội bộ"
+      title="Chuyển tiền liên ngân hàng"
       open={state.visible}
       onOk={onSubmit}
       onCancel={onCancel}
@@ -89,25 +78,6 @@ const NapTienForm = (props) => {
                 label: it.accountNumber,
                 value: it.accountNumber,
               }))
-            }}
-          />
-          <ProFormSelect
-            name="receiver"
-            label="Thông tin người nhận đã lưu"
-            placeholder="Chọn người nhận"
-            showSearch
-            request={async () => {
-              const res = await getReceiver();
-              return res?.data?.map((it) => ({
-                label: it.remindName,
-                value: it.accountNumber,
-              }))
-            }}
-            params={{ visible: state.visible }}
-            fieldProps={{
-              onChange: (value) => {
-                if (value) form.setFieldValue("account", value);
-              },
             }}
           />
           <ProFormText
@@ -146,4 +116,4 @@ const NapTienForm = (props) => {
   )
 };
 
-export default NapTienForm;
+export default NapTienLienNganHangForm;

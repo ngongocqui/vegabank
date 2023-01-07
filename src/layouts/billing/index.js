@@ -24,7 +24,7 @@ import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 import MasterCard from "examples/Cards/MasterCard";
-import { Button, Card, Divider, message, Popconfirm, Row, Space } from "antd";
+import { Button, Card, Divider, message, Popconfirm, Row, Space, Tag, Typography } from "antd";
 import { accountInfo } from "slices/accountSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { ProFormDigit, ProFormText } from "@ant-design/pro-components";
@@ -40,6 +40,7 @@ import SendOTP from "./components/SendOTP";
 import ReceiverForm from "./components/ReceiverForm";
 import { closeAccount } from "services/account";
 import CloseAccount from "./components/PopConfirm";
+import NapTienLienNganHangForm from "./components/NapTienLienNganHangForm";
 
 function Billing() {
   const dispatch = useDispatch();
@@ -47,6 +48,9 @@ function Billing() {
   const account = useSelector(accountInfo);
   const state = useReactive({
     napTien: {
+      visible: false,
+    },
+    napTienLienNganHang: {
       visible: false,
     },
     sendOTP: {
@@ -66,15 +70,25 @@ function Billing() {
         <Space direction="vertical" style={{ width: "100%" }}>
           {account?.data?.map?.((it, i) => {
             return (
-              <Card key={i}>
+              <Card
+                key={i}
+                title={
+                  <Space>
+                    <Typography.Text>{`Tài khoản ${i + 1}`}</Typography.Text>
+                    <Tag color={it.status === "ACTIVE" ? "success" : "red"}>{it.status}</Tag>
+                  </Space>
+                }
+              >
                 <Form initialValues={it}>
                   <ProFormText name="accountNumber" label="Account Number" disabled />
                   <ProFormText name="type" label="Type" disabled />
                   <ProFormDigit name="balance" label="Balance" disabled />
                 </Form>
-                <div style={{ display: 'flex', justifyContent: "flex-end" }}>
-                  <CloseAccount id={it.id} />
-                </div>
+                {it.status === "ACTIVE" && (
+                  <div style={{ display: 'flex', justifyContent: "flex-end" }}>
+                    <CloseAccount id={it.id} />
+                  </div>
+                )}
               </Card>
             )
           })}
@@ -82,6 +96,7 @@ function Billing() {
         <Divider />
         <Space>
           <Button type="primary" onClick={() => state.napTien.visible = true}>Chuyển khoản nội bộ</Button>
+          <Button onClick={() => state.napTienLienNganHang.visible = true}>Chuyển khoản liên ngân hàng</Button>
         </Space>
         <NapTienForm
           state={state.napTien}
@@ -90,6 +105,14 @@ function Billing() {
             state.sendOTP.id = id;
             state.receiverForm.account = account;
             // console.log(account)
+          }}
+        />
+        <NapTienLienNganHangForm
+          state={state.napTienLienNganHang}
+          reload={async () => {
+            const [, res_2] = await to(getAccountFindOne(customer?.id));
+            const accounts = res_2?.data?.data || [];
+            dispatch(updateAccountInfo({ data: accounts }));
           }}
         />
         <SendOTP

@@ -31,7 +31,7 @@ const SendOTP = (props) => {
       return;
     }
 
-    message.success("Nạp tiền thành công");
+    message.success("Chuyển tiền thành công");
     onCancel();
     await props.reload?.();
   };
