@@ -1,8 +1,9 @@
 import API from "../utils/request";
 
-export const getTransaction = async () => {
+export const getTransaction = async (params = {}) => {
   const res = await API.get(`transaction`, {
     headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+    params
   });
   return {
     data: res?.data || [],

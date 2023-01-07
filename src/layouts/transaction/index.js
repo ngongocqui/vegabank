@@ -23,52 +23,65 @@ const Transaction = () => {
     {
       title: 'Bank',
       dataIndex: 'bank',
+      key: 'bank',
       width: 50,
       ellipse: true,
       render: (_, record) => {
         if (String(record?.bank).toLowerCase() !== "ibank")
           return <Tag color="cyan">{record?.bank}</Tag>;
         return <Tag>{record?.bank}</Tag>;
+      },
+      valueEnum: {
+        iBank: { text: 'iBank' },
+        Abine: { text: 'Abine' }
       }
     },
     {
       title: 'Type',
       dataIndex: 'type',
       width: 50,
-      ellipse: true
+      ellipse: true,
+      search: false
     },
     {
       title: 'Amount',
       dataIndex: 'amount',
       width: 100,
-      ellipse: true
+      ellipse: true,
+      search: false
     },
     {
       title: 'Content',
       dataIndex: 'contentTransaction',
       width: 100,
-      ellipse: true
+      ellipse: true,
+      search: false
     },
     {
       title: 'From Name',
       dataIndex: 'fromName',
       width: 100,
-      ellipse: true
+      ellipse: true,
+      search: false
     },
     {
       title: 'Created At',
       dataIndex: 'createdAt',
       width: 100,
+      key: 'from',
       ellipse: true,
+      valueType: 'date',
       render: (_, record) => {
         return moment(record?.createdAt).format("DD/MM/YYYY HH:mm:ss");
-      }
+      },
     },
     {
       title: 'Updated At',
       dataIndex: 'updatedAt',
       width: 100,
       ellipse: true,
+      key: 'to',
+      valueType: 'date',
       render: (_, record) => {
         return moment(record?.updatedAt).format("DD/MM/YYYY HH:mm:ss");
       }
@@ -80,7 +93,7 @@ const Transaction = () => {
       <DashboardNavbar />
       <LocaleProTable>
         <ProTable
-          search={false}
+          search={customer.type === 'admin'}
           columns={columns}
           rowKey={(r, i) => i}
           pagination={{
@@ -88,8 +101,9 @@ const Transaction = () => {
             showTotal: (total, range) => `${range[0]}-${range[1]} trên ${total} transaction`,
           }}
           params={{ customer }}
-          request={async () => {
-            if (customer.type === 'admin') return await getTransaction();
+          request={async (params) => {
+            delete params.customer;
+            if (customer.type === 'admin') return await getTransaction(params);
             return await getTransactionByCustomer(customer.id);
           }}
           headerTitle={`Transaction`}
