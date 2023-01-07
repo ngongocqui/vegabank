@@ -106,7 +106,7 @@ const NapTienForm = (props) => {
             params={{ visible: state.visible }}
             fieldProps={{
               onChange: (value) => {
-                if (value) form.setFieldValue("account", value);
+                if (value) form.setFieldsValue({ account: value });
               },
             }}
           />

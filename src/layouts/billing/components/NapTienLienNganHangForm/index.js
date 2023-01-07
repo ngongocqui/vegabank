@@ -80,6 +80,31 @@ const NapTienLienNganHangForm = (props) => {
               }))
             }}
           />
+          <ProFormSelect
+            name="receiver"
+            label="Thông tin người nhận đã lưu"
+            placeholder="Chọn người nhận"
+            showSearch
+            request={async () => {
+              const res = await getReceiver();
+              return res?.data?.map((it) => ({
+                label: it.remindName,
+                value: it.accountNumber,
+              }))
+            }}
+            params={{ visible: state.visible }}
+            fieldProps={{
+              onChange: async (value) => {
+                if (value) {
+                  const res = await getTransactionLinkingBankByAccountNumber(value);
+                  form.setFieldsValue({
+                    account: value,
+                    name: res.data?.fullname
+                  })
+                }
+              },
+            }}
+          />
           <ProFormText
             name="account"
             label="Account Number người nhận"
