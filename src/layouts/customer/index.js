@@ -73,15 +73,15 @@ const Customer = () => {
           }}
           headerTitle={`Customer`}
           toolBarRender={() => [
-            // <Button
-            //   key="nap-tien"
-            //   type="default"
-            //   onClick={() => {
-            //     state.napTien.visible = true;
-            //   }}
-            // >
-            //   <PlusOutlined /> Nạp tiền
-            // </Button>,
+            <Button
+              key="nap-tien"
+              type="default"
+              onClick={() => {
+                state.napTien.visible = true;
+              }}
+            >
+              <PlusOutlined /> Nạp tiền
+            </Button>,
             <Button
               key="create"
               type="primary"
