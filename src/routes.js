@@ -55,10 +55,10 @@ import Receiver from "layouts/receiver";
 const routes = [
   {
     type: "collapse",
-    name: "Billing",
+    name: "Account",
     key: "billing",
     icon: <Icon fontSize="small">receipt_long</Icon>,
-    route: "/billing",
+    route: "/account",
     component: <Billing />,
     typeAccount: ['customer'],
   },
@@ -77,7 +77,7 @@ const routes = [
     icon: <Icon fontSize="small">table_view</Icon>,
     route: "/transaction",
     component: <Transaction />,
-    typeAccount: ['customer', 'employee'],
+    typeAccount: ['customer', 'employee', 'admin'],
   },
   {
     type: "collapse",
@@ -95,7 +95,7 @@ const routes = [
     icon: <Icon fontSize="small">person</Icon>,
     route: "/customer",
     component: <Customer />,
-    typeAccount: ['employee'],
+    typeAccount: ['employee', 'admin'],
   },
   {
     type: "collapse",
@@ -104,7 +104,7 @@ const routes = [
     icon: <Icon fontSize="small">person</Icon>,
     route: "/account",
     component: <Account />,
-    typeAccount: ['employee'],
+    typeAccount: ['employee', 'admin'],
   },
   // {
   //   type: "collapse",

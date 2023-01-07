@@ -24,7 +24,7 @@ import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 import MasterCard from "examples/Cards/MasterCard";
-import { Button, Card, Row, Space } from "antd";
+import { Button, Card, Divider, Row, Space } from "antd";
 import { accountInfo } from "slices/accountSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { ProFormDigit, ProFormText } from "@ant-design/pro-components";
@@ -59,12 +59,13 @@ function Billing() {
                 <ProFormText name="type" label="Type" disabled />
                 <ProFormDigit name="balance" label="Balance" disabled />
               </Form>
-              <Space>
-                <Button type="primary" onClick={() => state.napTien.visible = true}>Chuyển khoản nội bộ</Button>
-              </Space>
             </Card>
           )
         })}
+        <Divider />
+        <Space>
+          <Button type="primary" onClick={() => state.napTien.visible = true}>Chuyển khoản nội bộ</Button>
+        </Space>
         <NapTienForm
           state={state.napTien}
           reload={async () => {

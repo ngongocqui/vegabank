@@ -12,7 +12,7 @@ export const getReceiver = async () => {
 };
 
 export const createReceiver = (body) => {
-  return API.post(`receiver`, body, {
+  return API.post(`receiver/createbyaccountnumber`, body, {
     headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
   });
 };
