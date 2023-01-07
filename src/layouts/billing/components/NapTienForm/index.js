@@ -75,6 +75,9 @@ const NapTienForm = (props) => {
             name="source"
             label="Tài khoản nguồn"
             placeholder="Chọn tài khoản nguồn"
+            rules={[
+              { required: true, message: "Tài khoản nguồn là bắt buộc!" },
+            ]}
             showSearch
             request={async () => {
               const res = await getAccountFindOne(customer.id);
