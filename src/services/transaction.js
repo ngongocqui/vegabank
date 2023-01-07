@@ -27,3 +27,9 @@ export const createTransactionByCustomer = (body) => {
     headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
   });
 };
+
+export const sendMail = (id, body) => {
+  return API.patch(`transaction/updatebalance/${id}`, body, {
+    headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+  });
+};

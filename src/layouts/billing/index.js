@@ -30,12 +30,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { ProFormDigit, ProFormText } from "@ant-design/pro-components";
 import Form from "antd/es/form/Form";
 import LocaleProTable from "components/Locale";
-import { useReactive } from "ahooks";
+import { useDeepCompareEffect, useReactive } from "ahooks";
 import NapTienForm from "./components/NapTienForm";
 import to from "await-to-js";
 import { getAccountFindOne } from "services/account";
 import { updateAccountInfo } from "slices/accountSlice";
 import { customerInfo } from "slices/customerSlice";
+import SendOTP from "./components/SendOTP";
+import ReceiverForm from "./components/ReceiverForm";
 
 function Billing() {
   const dispatch = useDispatch();
@@ -44,6 +46,14 @@ function Billing() {
   const state = useReactive({
     napTien: {
       visible: false,
+    },
+    sendOTP: {
+      visible: false,
+      id: null
+    },
+    receiverForm: {
+      visible: false,
+      account: ""
     }
   });
 
@@ -68,6 +78,25 @@ function Billing() {
         </Space>
         <NapTienForm
           state={state.napTien}
+          reload={async (id, account) => {
+            state.sendOTP.visible = true;
+            state.sendOTP.id = id;
+            state.receiverForm.account = account;
+            // console.log(account)
+          }}
+        />
+        <SendOTP
+          state={state.sendOTP}
+          reload={async () => {
+            const [, res_2] = await to(getAccountFindOne(customer?.id));
+            const accounts = res_2?.data?.data || [];
+            dispatch(updateAccountInfo({ data: accounts }));
+
+            state.receiverForm.visible = true;
+          }}
+        />
+        <ReceiverForm
+          state={state.receiverForm}
           reload={async () => {
             const [, res_2] = await to(getAccountFindOne(customer?.id));
             const accounts = res_2?.data?.data || [];

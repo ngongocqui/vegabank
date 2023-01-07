@@ -83,7 +83,7 @@ const Transaction = () => {
           }}
           params={{ customer }}
           request={async () => {
-            if (customer.type === 'employee') return await getTransaction();
+            if (customer.type === 'admin') return await getTransaction();
             return await getTransactionByCustomer(customer.id);
           }}
           headerTitle={`Transaction`}

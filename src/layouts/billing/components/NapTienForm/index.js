@@ -26,35 +26,39 @@ const NapTienForm = (props) => {
       return;
     }
 
-    const [err_1] = await to(createTransactionByCustomer({
+    const toAccount = form.getFieldValue("account");
+
+    const [err_1, res_1] = await to(createTransactionByCustomer({
       fromAccount: form.getFieldValue("source"),
-      toAccount: form.getFieldValue("account"),
+      toAccount,
       amount: form.getFieldValue("amount"),
       type: "sender",
       contentTransaction: form.getFieldValue("content")
     }));
+
+    // console.log(res_1)
 
     if (err_1) {
       message.error(err_1?.response?.data?.message || err_1.message);
       return;
     }
 
-    if (form.getFieldValue("check")) {
-      // post receiver
-      const [err_2] = await to(createReceiver({
-        accountNumber: form.getFieldValue("account"),
-        remindName: form.getFieldValue("remindName"),
-      }));
+    // if (form.getFieldValue("check")) {
+    //   // post receiver
+    //   const [err_2] = await to(createReceiver({
+    //     accountNumber: form.getFieldValue("account"),
+    //     remindName: form.getFieldValue("remindName"),
+    //   }));
 
-      if (err_2) {
-        message.error(err_2?.response?.data?.message || err_2.message);
-        return;
-      }
-    }
+    //   if (err_2) {
+    //     message.error(err_2?.response?.data?.message || err_2.message);
+    //     return;
+    //   }
+    // }
 
-    message.success("Nạp tiền thành công");
+    // message.success("Nạp tiền thành công");
     onCancel();
-    props.reload?.();
+    await props.reload?.(res_1?.data?.data?._id, toAccount);
   };
 
   const onCancel = () => {
@@ -99,6 +103,7 @@ const NapTienForm = (props) => {
                 value: it.accountNumber,
               }))
             }}
+            params={{ visible: state.visible }}
             fieldProps={{
               onChange: (value) => {
                 if (value) form.setFieldValue("account", value);
@@ -126,7 +131,7 @@ const NapTienForm = (props) => {
             label="Content"
             placeholder="Nhập content"
           />
-          <ProFormCheckbox
+          {/* <ProFormCheckbox
             name="check"
             label="Có lưu thông tin người nhận"
             initialValue={true}
@@ -141,7 +146,7 @@ const NapTienForm = (props) => {
                 />
               )
             }}
-          </ProFormDependency>
+          </ProFormDependency> */}
         </Form>
       </Card>
     </Modal>
