@@ -1,4 +1,4 @@
-import { ProFormCheckbox, ProFormDigit, ProFormSelect, ProFormText, ProFormTextArea } from '@ant-design/pro-components';
+import { ProFormCheckbox, ProFormDependency, ProFormDigit, ProFormSelect, ProFormText, ProFormTextArea } from '@ant-design/pro-components';
 import { useReactive } from 'ahooks';
 import { Modal, Form, Card, message } from 'antd';
 import to from 'await-to-js';
@@ -43,7 +43,7 @@ const NapTienForm = (props) => {
       // post receiver
       const [err_2] = await to(createReceiver({
         accountNumber: form.getFieldValue("account"),
-        // remindName: form.getFieldValue("account"),
+        remindName: form.getFieldValue("remindName"),
       }));
 
       if (err_2) {
@@ -131,6 +131,17 @@ const NapTienForm = (props) => {
             label="Có lưu thông tin người nhận"
             initialValue={true}
           />
+          <ProFormDependency name={['check']}>
+            {({ check }) => {
+              if (!check) return;
+              return (
+                <ProFormText
+                  name="remindName"
+                  label="Tên người nhận"
+                />
+              )
+            }}
+          </ProFormDependency>
         </Form>
       </Card>
     </Modal>

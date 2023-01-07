@@ -1,6 +1,6 @@
 import { ProTable } from "@ant-design/pro-components";
-import { Tag, Button } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
+import { Tag, Button, Space, message } from 'antd';
+import { PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import LocaleProTable from "components/Locale";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
@@ -12,12 +12,16 @@ import NapTienForm from "./components/NapTienForm";
 import { getAccount } from "services/account";
 import moment from "moment";
 import { getReceiver } from "services/receiver";
+import { deleteReceiver } from "services/receiver";
+import Footer from "layouts/authentication/components/Footer";
 
 const Receiver = () => {
   const actionRef = useRef();
   const state = useReactive({
     customerForm: {
       visible: false,
+      type: "CREATE",
+      data: null,
     },
     napTien: {
       visible: false,
@@ -46,7 +50,7 @@ const Receiver = () => {
     {
       title: 'Created At',
       dataIndex: 'createdAt',
-      width: 100,
+      width: 200,
       ellipse: true,
       render: (_, record) => {
         return moment(record?.createdAt).format("DD/MM/YYYY HH:mm:ss");
@@ -55,12 +59,35 @@ const Receiver = () => {
     {
       title: 'Updated At',
       dataIndex: 'updatedAt',
-      width: 100,
+      width: 200,
       ellipse: true,
       render: (_, record) => {
         return moment(record?.updatedAt).format("DD/MM/YYYY HH:mm:ss");
       }
     },
+    {
+      title: 'Tuỳ chỉnh',
+      dataIndex: 'option',
+      with: 100,
+      render: (_, record) => [
+        <Space>
+          <EditOutlined
+            onClick={() => {
+              state.customerForm.visible = true
+              state.customerForm.type = "UPDATE"
+              state.customerForm.data = record
+            }}
+          />,
+          <DeleteOutlined
+            onClick={async () => {
+              await deleteReceiver(record._id);
+              actionRef.current?.reload();
+              message.success("Xoá thành công!");
+            }}
+          />
+        </Space>
+      ]
+    }
   ];
 
   return (
@@ -95,6 +122,7 @@ const Receiver = () => {
               type="primary"
               onClick={() => {
                 state.customerForm.visible = true;
+                state.customerForm.type = "CREATE"
               }}
             >
               <PlusOutlined /> Tạo mới
@@ -104,6 +132,7 @@ const Receiver = () => {
         <CustomerForm state={state.customerForm} reload={() => actionRef.current?.reload()} />
         <NapTienForm state={state.napTien} reload={() => actionRef.current?.reload()} />
       </LocaleProTable>
+      <Footer />
     </DashboardLayout>
   )
 };

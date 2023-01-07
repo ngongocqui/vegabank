@@ -16,3 +16,15 @@ export const createReceiver = (body) => {
     headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
   });
 };
+
+export const updateReceiver = (id, body) => {
+  return API.patch(`receiver/${id}`, body, {
+    headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+  });
+};
+
+export const deleteReceiver = (id) => {
+  return API.delete(`receiver/${id}`, {
+    headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+  });
+};
