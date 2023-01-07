@@ -41,6 +41,7 @@ import ReceiverForm from "./components/ReceiverForm";
 import { closeAccount } from "services/account";
 import CloseAccount from "./components/PopConfirm";
 import NapTienLienNganHangForm from "./components/NapTienLienNganHangForm";
+import SendOTPLienNganHang from "./components/SendOTPLienNganHang";
 
 function Billing() {
   const dispatch = useDispatch();
@@ -52,6 +53,10 @@ function Billing() {
     },
     napTienLienNganHang: {
       visible: false,
+    },
+    sendOTPLienNganHang: {
+      visible: false,
+      id: null
     },
     sendOTP: {
       visible: false,
@@ -109,10 +114,9 @@ function Billing() {
         />
         <NapTienLienNganHangForm
           state={state.napTienLienNganHang}
-          reload={async () => {
-            const [, res_2] = await to(getAccountFindOne(customer?.id));
-            const accounts = res_2?.data?.data || [];
-            dispatch(updateAccountInfo({ data: accounts }));
+          reload={async (id, account) => {
+            state.sendOTPLienNganHang.visible = true;
+            state.sendOTPLienNganHang.id = id;
           }}
         />
         <SendOTP
@@ -123,6 +127,14 @@ function Billing() {
             dispatch(updateAccountInfo({ data: accounts }));
 
             state.receiverForm.visible = true;
+          }}
+        />
+        <SendOTPLienNganHang
+          state={state.sendOTPLienNganHang}
+          reload={async () => {
+            const [, res_2] = await to(getAccountFindOne(customer?.id));
+            const accounts = res_2?.data?.data || [];
+            dispatch(updateAccountInfo({ data: accounts }));
           }}
         />
         <ReceiverForm

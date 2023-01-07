@@ -5,6 +5,7 @@ import to from 'await-to-js';
 import { useSelector } from 'react-redux';
 import { getAccountFindOne } from 'services/account';
 import { getAccount } from 'services/account';
+import { getTransactionLinkingBankByAccountNumber } from 'services/linking-bank';
 import { createTransactionLinkingBank } from 'services/linking-bank';
 import { getReceiver } from 'services/receiver';
 import { createReceiver } from 'services/receiver';
@@ -29,7 +30,7 @@ const NapTienLienNganHangForm = (props) => {
 
     const toAccount = form.getFieldValue("account");
 
-    const [err_1] = await to(createTransactionLinkingBank({
+    const [err_1, res_1] = await to(createTransactionLinkingBank({
       fromAccount: form.getFieldValue("source"),
       toAccount,
       amount: form.getFieldValue("amount"),
@@ -45,9 +46,8 @@ const NapTienLienNganHangForm = (props) => {
       return;
     }
 
-    message.success("Chuyển tiền thành công");
     onCancel();
-    await props.reload?.();
+    await props.reload?.(res_1?.data?.data?.newTrans?._id, toAccount);
   };
 
   const onCancel = () => {
@@ -87,7 +87,30 @@ const NapTienLienNganHangForm = (props) => {
             rules={[
               { required: true, message: "Account number là bắt buộc!" },
             ]}
+            fieldProps={{
+              onChange: async (event) => {
+                if (event.target.value) {
+                  const res = await getTransactionLinkingBankByAccountNumber(event.target.value);
+                  form.setFieldsValue({
+                    name: res.data?.fullname
+                  })
+                }
+              }
+            }}
           />
+          <ProFormDependency name={["name"]}>
+            {({ name }) => {
+              if (!name) return;
+              return (
+                <ProFormText
+                  label="Tên người nhận"
+                  name="name"
+                  disabled
+                  placeholder="Tên người nhận"
+                />
+              )
+            }}
+          </ProFormDependency>
           <ProFormDigit
             name="amount"
             label="Amount"
