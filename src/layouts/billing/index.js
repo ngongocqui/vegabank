@@ -39,6 +39,7 @@ import { customerInfo } from "slices/customerSlice";
 import SendOTP from "./components/SendOTP";
 import ReceiverForm from "./components/ReceiverForm";
 import { closeAccount } from "services/account";
+import CloseAccount from "./components/PopConfirm";
 
 function Billing() {
   const dispatch = useDispatch();
@@ -56,9 +57,6 @@ function Billing() {
       visible: false,
       account: ""
     },
-    popconfirm: {
-      visible: false
-    }
   });
 
   return (
@@ -75,20 +73,7 @@ function Billing() {
                   <ProFormDigit name="balance" label="Balance" disabled />
                 </Form>
                 <div style={{ display: 'flex', justifyContent: "flex-end" }}>
-                  <Popconfirm
-                    title="Đóng tài khoản"
-                    open={state.popconfirm.visible}
-                    onConfirm={async () => {
-                      await closeAccount(it.id);
-                      state.popconfirm.visible = false;
-                      message.success("Bạn đã đóng tài khoản");
-                    }}
-                    onCancel={() => state.popconfirm.visible = false}
-                  >
-                    <Button onClick={() => state.popconfirm.visible = true}>
-                      Đóng tài khoản
-                    </Button>
-                  </Popconfirm>
+                  <CloseAccount id={it.id} />
                 </div>
               </Card>
             )
