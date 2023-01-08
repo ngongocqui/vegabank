@@ -1,6 +1,6 @@
 import { ProTable } from "@ant-design/pro-components";
-import { Tag, Button, Space } from "antd";
-import { PlusOutlined, EditOutlined } from "@ant-design/icons";
+import { Tag, Button, Space, Switch, message } from "antd";
+import { PlusOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import LocaleProTable from "components/Locale";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
@@ -8,22 +8,18 @@ import { getCustomer } from "services/customer";
 import CustomerForm from "./components/CustomerForm";
 import { useReactive } from "ahooks";
 import { useRef } from "react";
-import NapTienForm from "./components/NapTienForm";
-import CreateAccountForm from "./components/CreateAccountForm";
+import { changeStatus } from "services/customer";
+import { getDebt } from "services/debt";
+import { deleteDebt } from "services/debt";
 import Footer from "examples/Footer";
 
-const Customer = () => {
+const Debt = () => {
   const actionRef = useRef();
   const state = useReactive({
     customerForm: {
       visible: false,
-    },
-    napTien: {
-      visible: false,
-    },
-    createAccountForm: {
-      visible: false,
-      data: null,
+      type: "CREATE",
+      data: null
     },
   });
 
@@ -35,40 +31,53 @@ const Customer = () => {
       width: 80,
     },
     {
-      title: "Email",
-      dataIndex: "email",
+      title: "Creditor",
+      dataIndex: "creditor",
       width: 150,
       ellipse: true,
     },
     {
-      title: "Name",
-      dataIndex: "name",
+      title: "Debtor",
+      dataIndex: "debtor",
       width: 150,
       ellipse: true,
     },
     {
-      title: "Xác thực",
-      dataIndex: "is_confirmed",
+      title: "Content",
+      dataIndex: "contentDebt",
+      width: 150,
+      ellipse: true,
+    },
+    {
+      title: "Amount",
+      dataIndex: "amount",
       width: 100,
       ellipse: true,
-      render: (_, record) => {
-        return (
-          <Tag color={record?.is_confirmed ? "success" : "error"}>
-            {record?.is_confirmed ? "Đã xác thực" : "Chưa xác thực"}
-          </Tag>
-        );
-      },
+    },
+    {
+      title: "Trạng thái",
+      dataIndex: "status",
+      width: 100,
     },
     {
       title: "Tuỳ chỉnh",
       valueType: "option",
-      width: 50,
+      width: 100,
       render: (_, record) => [
         <Space>
           <EditOutlined
             onClick={() => {
-              state.createAccountForm.visible = true;
-              state.createAccountForm.data = record;
+              state.customerForm.visible = true;
+              state.customerForm.type = "UPDATE"
+              state.customerForm.data = record
+            }}
+          />
+          <DeleteOutlined
+            onClick={async () => {
+              await deleteDebt(record?._id);
+              message.success("Xoá thành công!");
+
+              actionRef.current?.reload();
             }}
           />
         </Space>,
@@ -88,27 +97,19 @@ const Customer = () => {
           pagination={{
             pageSize: 10,
             showTotal: (total, range) =>
-              `${range[0]}-${range[1]} trên ${total} customer`,
+              `${range[0]}-${range[1]} trên ${total} debt`,
           }}
           request={async () => {
-            return await getCustomer();
+            return await getDebt();
           }}
-          headerTitle={`Customer`}
+          headerTitle={`Debt`}
           toolBarRender={() => [
-            <Button
-              key="nap-tien"
-              type="default"
-              onClick={() => {
-                state.napTien.visible = true;
-              }}
-            >
-              <PlusOutlined /> Nạp tiền
-            </Button>,
             <Button
               key="create"
               type="primary"
               onClick={() => {
                 state.customerForm.visible = true;
+                state.customerForm.type = "CREATE"
               }}
             >
               <PlusOutlined /> Tạo mới
@@ -119,18 +120,10 @@ const Customer = () => {
           state={state.customerForm}
           reload={() => actionRef.current?.reload()}
         />
-        <NapTienForm
-          state={state.napTien}
-          reload={() => actionRef.current?.reload()}
-        />
-        <CreateAccountForm
-          state={state.createAccountForm}
-          reload={() => actionRef.current?.reload()}
-        />
       </LocaleProTable>
       <Footer />
     </DashboardLayout>
   );
 };
 
-export default Customer;
+export default Debt;

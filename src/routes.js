@@ -51,6 +51,8 @@ import Transaction from "layouts/transaction";
 import Customer from "layouts/customer";
 import Account from "layouts/account";
 import Receiver from "layouts/receiver";
+import Employee from "layouts/employee";
+import Debt from "layouts/debt";
 
 const routes = [
   {
@@ -105,6 +107,24 @@ const routes = [
     route: "/account",
     component: <Account />,
     typeAccount: ["employee", "admin"],
+  },
+  {
+    type: "collapse",
+    name: "Employee",
+    key: "employee",
+    icon: <Icon fontSize="small">person</Icon>,
+    route: "/employee",
+    component: <Employee />,
+    typeAccount: ["employee", "admin"],
+  },
+  {
+    type: "collapse",
+    name: "Debt",
+    key: "debt",
+    icon: <Icon fontSize="small">person</Icon>,
+    route: "/debt",
+    component: <Debt />,
+    typeAccount: ["customer", "employee", "admin"],
   },
   // {
   //   type: "collapse",
