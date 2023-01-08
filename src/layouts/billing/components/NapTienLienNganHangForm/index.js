@@ -1,17 +1,24 @@
-import { ProFormCheckbox, ProFormDependency, ProFormDigit, ProFormSelect, ProFormText, ProFormTextArea } from '@ant-design/pro-components';
-import { useReactive } from 'ahooks';
-import { Modal, Form, Card, message } from 'antd';
-import to from 'await-to-js';
-import { useSelector } from 'react-redux';
-import { getAccountFindOne } from 'services/account';
-import { getAccount } from 'services/account';
-import { getTransactionLinkingBankByAccountNumber } from 'services/linking-bank';
-import { createTransactionLinkingBank } from 'services/linking-bank';
-import { getReceiver } from 'services/receiver';
-import { createReceiver } from 'services/receiver';
-import { createTransactionByCustomer } from 'services/transaction';
-import { accountInfo } from 'slices/accountSlice';
-import { customerInfo } from 'slices/customerSlice';
+import {
+  ProFormCheckbox,
+  ProFormDependency,
+  ProFormDigit,
+  ProFormSelect,
+  ProFormText,
+  ProFormTextArea,
+} from "@ant-design/pro-components";
+import { useReactive } from "ahooks";
+import { Modal, Form, Card, message } from "antd";
+import to from "await-to-js";
+import { useSelector } from "react-redux";
+import { getAccountFindOne } from "services/account";
+import { getAccount } from "services/account";
+import { getTransactionLinkingBankByAccountNumber } from "services/linking-bank";
+import { createTransactionLinkingBank } from "services/linking-bank";
+import { getReceiver } from "services/receiver";
+import { createReceiver } from "services/receiver";
+import { createTransactionByCustomer } from "services/transaction";
+import { accountInfo } from "slices/accountSlice";
+import { customerInfo } from "slices/customerSlice";
 
 const NapTienLienNganHangForm = (props) => {
   const [form] = Form.useForm();
@@ -30,14 +37,16 @@ const NapTienLienNganHangForm = (props) => {
 
     const toAccount = form.getFieldValue("account");
 
-    const [err_1, res_1] = await to(createTransactionLinkingBank({
-      fromAccount: form.getFieldValue("source"),
-      toAccount,
-      amount: form.getFieldValue("amount"),
-      type: form.getFieldValue("type"),
-      contentTransaction: form.getFieldValue("content"),
-      fee: 0,
-    }));
+    const [err_1, res_1] = await to(
+      createTransactionLinkingBank({
+        fromAccount: form.getFieldValue("source"),
+        toAccount,
+        amount: form.getFieldValue("amount"),
+        type: form.getFieldValue("type"),
+        contentTransaction: form.getFieldValue("content"),
+        fee: 0,
+      })
+    );
 
     // console.log(res_1)
 
@@ -63,7 +72,7 @@ const NapTienLienNganHangForm = (props) => {
       onCancel={onCancel}
     >
       <Card>
-        <Form form={form} layout='vertical'>
+        <Form form={form} layout="vertical">
           <ProFormSelect
             name="source"
             label="Tài khoản nguồn"
@@ -77,7 +86,7 @@ const NapTienLienNganHangForm = (props) => {
               return res?.data?.data?.map((it) => ({
                 label: it.accountNumber,
                 value: it.accountNumber,
-              }))
+              }));
             }}
           />
           <ProFormSelect
@@ -109,18 +118,18 @@ const NapTienLienNganHangForm = (props) => {
             name="account"
             label="Account Number người nhận"
             placeholder="Nhập account number"
-            rules={[
-              { required: true, message: "Account number là bắt buộc!" },
-            ]}
+            rules={[{ required: true, message: "Account number là bắt buộc!" }]}
             fieldProps={{
               onChange: async (event) => {
                 if (event.target.value) {
-                  const res = await getTransactionLinkingBankByAccountNumber(event.target.value);
+                  const res = await getTransactionLinkingBankByAccountNumber(
+                    event.target.value
+                  );
                   form.setFieldsValue({
-                    name: res.data?.fullname
-                  })
+                    name: res.data?.fullname,
+                  });
                 }
-              }
+              },
             }}
           />
           <ProFormDependency name={["name"]}>
@@ -133,16 +142,14 @@ const NapTienLienNganHangForm = (props) => {
                   disabled
                   placeholder="Tên người nhận"
                 />
-              )
+              );
             }}
           </ProFormDependency>
           <ProFormDigit
             name="amount"
             label="Amount"
             placeholder="Nhập amount"
-            rules={[
-              { required: true, message: "Amount là bắt buộc!" },
-            ]}
+            rules={[{ required: true, message: "Amount là bắt buộc!" }]}
           />
           <ProFormTextArea
             name="content"
@@ -154,14 +161,14 @@ const NapTienLienNganHangForm = (props) => {
             label="Phí chuyển"
             initialValue="SENDER"
             request={() => [
-              { label: 'Người nhận trả', value: 'RECEIVER' },
-              { label: 'Người chuyển trả', value: 'SENDER' },
+              { label: "Người nhận trả", value: "RECEIVER" },
+              { label: "Người chuyển trả", value: "SENDER" },
             ]}
           />
         </Form>
       </Card>
     </Modal>
-  )
+  );
 };
 
 export default NapTienLienNganHangForm;

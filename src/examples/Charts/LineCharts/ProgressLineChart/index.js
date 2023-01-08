@@ -33,8 +33,21 @@ import MDProgress from "components/MDProgress";
 // ProgressLineChart configurations
 import configs from "examples/Charts/LineCharts/ProgressLineChart/config";
 
-function ProgressLineChart({ color, icon, title, count, progress, height, chart }) {
-  const { data, options } = configs(color, chart.labels || [], title, chart.data || []);
+function ProgressLineChart({
+  color,
+  icon,
+  title,
+  count,
+  progress,
+  height,
+  chart,
+}) {
+  const { data, options } = configs(
+    color,
+    chart.labels || [],
+    title,
+    chart.data || []
+  );
 
   return (
     <Card>
@@ -69,7 +82,12 @@ function ProgressLineChart({ color, icon, title, count, progress, height, chart 
           ) : null}
         </MDBox>
         <MDBox width="25%" ml="auto">
-          <MDTypography display="block" variant="caption" fontWeight="medium" color="text">
+          <MDTypography
+            display="block"
+            variant="caption"
+            fontWeight="medium"
+            color="text"
+          >
             {progress}%
           </MDTypography>
           <MDBox mt={0.25}>
@@ -98,7 +116,15 @@ ProgressLineChart.defaultProps = {
 
 // Typechecking props for the ProgressLineChart
 ProgressLineChart.propTypes = {
-  color: PropTypes.oneOf(["primary", "secondary", "info", "success", "warning", "error", "dark"]),
+  color: PropTypes.oneOf([
+    "primary",
+    "secondary",
+    "info",
+    "success",
+    "warning",
+    "error",
+    "dark",
+  ]),
   icon: PropTypes.node.isRequired,
   title: PropTypes.string.isRequired,
   count: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),

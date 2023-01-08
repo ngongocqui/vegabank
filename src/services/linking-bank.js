@@ -10,7 +10,7 @@ export const getTransactionLinkingBankByAccountNumber = (accountNumber) => {
   return API.get(`linking-banks/external/account/${accountNumber}`, {
     headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
   });
-}
+};
 
 export const sendMailLinkingBank = (id, body) => {
   return API.patch(`linking-banks/updatebalance/${id}`, body, {

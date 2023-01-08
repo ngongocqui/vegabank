@@ -57,7 +57,9 @@ function GradientLineChart({ icon, title, description, height, chart }) {
           maxBarThickness: 6,
           backgroundColor: gradientChartLine(
             chartRef.current.children[0],
-            colors[dataset.color] ? colors[dataset.color || "dark"].main : colors.dark.main
+            colors[dataset.color]
+              ? colors[dataset.color || "dark"].main
+              : colors.dark.main
           ),
         }))
       : [];

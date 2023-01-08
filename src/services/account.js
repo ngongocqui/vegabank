@@ -7,8 +7,8 @@ export const getAccount = async () => {
   return {
     data: res?.data?.data || [],
     total: res?.data?.data?.length,
-    success: true
-  }
+    success: true,
+  };
 };
 
 export const getAccountFindOne = (customerId) => {

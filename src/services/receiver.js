@@ -7,8 +7,8 @@ export const getReceiver = async () => {
   return {
     data: res?.data || [],
     total: res?.data?.length,
-    success: true
-  }
+    success: true,
+  };
 };
 
 export const createReceiver = (body) => {

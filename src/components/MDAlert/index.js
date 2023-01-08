@@ -41,7 +41,9 @@ function MDAlert({ color, dismissible, children, ...rest }) {
           {children}
         </MDBox>
         {dismissible ? (
-          <MDAlertCloseIcon onClick={mount ? handleAlertStatus : null}>&times;</MDAlertCloseIcon>
+          <MDAlertCloseIcon onClick={mount ? handleAlertStatus : null}>
+            &times;
+          </MDAlertCloseIcon>
         ) : null}
       </MDAlertRoot>
     </Fade>

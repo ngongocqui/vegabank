@@ -7,8 +7,8 @@ export const getCustomer = async () => {
   return {
     data: res?.data?.data?.customer || [],
     total: res?.data?.data?.customer?.length,
-    success: true
-  }
+    success: true,
+  };
 };
 
 export const getCustomerFindOne = () => {

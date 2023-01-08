@@ -60,7 +60,7 @@ const routes = [
     icon: <Icon fontSize="small">receipt_long</Icon>,
     route: "/account",
     component: <Billing />,
-    typeAccount: ['customer'],
+    typeAccount: ["customer"],
   },
   // {
   //   type: "collapse",
@@ -77,7 +77,7 @@ const routes = [
     icon: <Icon fontSize="small">table_view</Icon>,
     route: "/transaction",
     component: <Transaction />,
-    typeAccount: ['customer', 'employee', 'admin'],
+    typeAccount: ["customer", "employee", "admin"],
   },
   {
     type: "collapse",
@@ -86,7 +86,7 @@ const routes = [
     icon: <Icon fontSize="small">person</Icon>,
     route: "/receiver",
     component: <Receiver />,
-    typeAccount: ['customer'],
+    typeAccount: ["customer"],
   },
   {
     type: "collapse",
@@ -95,7 +95,7 @@ const routes = [
     icon: <Icon fontSize="small">person</Icon>,
     route: "/customer",
     component: <Customer />,
-    typeAccount: ['employee', 'admin'],
+    typeAccount: ["employee", "admin"],
   },
   {
     type: "collapse",
@@ -104,7 +104,7 @@ const routes = [
     icon: <Icon fontSize="small">person</Icon>,
     route: "/account",
     component: <Account />,
-    typeAccount: ['employee', 'admin'],
+    typeAccount: ["employee", "admin"],
   },
   // {
   //   type: "collapse",

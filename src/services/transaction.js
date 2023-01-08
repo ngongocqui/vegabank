@@ -3,25 +3,25 @@ import API from "../utils/request";
 export const getTransaction = async (params = {}) => {
   const res = await API.get(`transaction`, {
     headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-    params
+    params,
   });
   return {
     data: res?.data || [],
     total: res?.data?.length,
-    success: true
-  }
+    success: true,
+  };
 };
 
 export const getTransactionByCustomer = async (customerId, params = {}) => {
   const res = await API.get(`transaction/byCustomerId/${customerId}`, {
     headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-    params
+    params,
   });
   return {
     data: res?.data?.data || [],
     total: res?.data?.data?.length,
-    success: true
-  }
+    success: true,
+  };
 };
 
 export const createTransactionByCustomer = (body) => {

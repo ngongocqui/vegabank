@@ -101,12 +101,13 @@ const boxShadows = {
     )}`,
   },
 
-  navbarBoxShadow: `${boxShadow([0, 0], [1, 1], dark.main, 0.9, "inset")}, ${boxShadow(
-    [0, 20],
-    [27, 0],
-    black.main,
-    0.05
-  )}`,
+  navbarBoxShadow: `${boxShadow(
+    [0, 0],
+    [1, 1],
+    dark.main,
+    0.9,
+    "inset"
+  )}, ${boxShadow([0, 20], [27, 0], black.main, 0.05)}`,
   sliderBoxShadow: {
     thumb: boxShadow([0, 1], [13, 0], black.main, 0.2),
   },

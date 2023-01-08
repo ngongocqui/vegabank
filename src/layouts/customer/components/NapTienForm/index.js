@@ -1,11 +1,11 @@
-import { ProFormDigit, ProFormSelect } from '@ant-design/pro-components';
-import { useReactive } from 'ahooks';
-import { Modal, Form, Card, message } from 'antd';
-import to from 'await-to-js';
-import { getAccountFindOne } from 'services/account';
-import { updateBalance } from 'services/account';
-import { getCustomerFindOne } from 'services/customer';
-import { getCustomer } from 'services/customer';
+import { ProFormDigit, ProFormSelect } from "@ant-design/pro-components";
+import { useReactive } from "ahooks";
+import { Modal, Form, Card, message } from "antd";
+import to from "await-to-js";
+import { getAccountFindOne } from "services/account";
+import { updateBalance } from "services/account";
+import { getCustomerFindOne } from "services/customer";
+import { getCustomer } from "services/customer";
 
 const NapTienForm = (props) => {
   const [form] = Form.useForm();
@@ -20,7 +20,9 @@ const NapTienForm = (props) => {
       return;
     }
 
-    const [err_2, res_2] = await to(getAccountFindOne(form.getFieldValue("email")));
+    const [err_2, res_2] = await to(
+      getAccountFindOne(form.getFieldValue("email"))
+    );
     const accounts = res_2?.data?.data || [];
     if (err_2) {
       message.error(err_2?.response?.data?.message || err_2.message);
@@ -32,9 +34,11 @@ const NapTienForm = (props) => {
       return;
     }
 
-    const [err_1] = await to(updateBalance(accounts[0]?.id, {
-      balance: form.getFieldValue("balance"),
-    }));
+    const [err_1] = await to(
+      updateBalance(accounts[0]?.id, {
+        balance: form.getFieldValue("balance"),
+      })
+    );
 
     if (err_1) {
       message.error(err_1?.response?.data?.message || err_1.message);
@@ -58,35 +62,31 @@ const NapTienForm = (props) => {
       onCancel={onCancel}
     >
       <Card>
-        <Form form={form} layout='vertical'>
+        <Form form={form} layout="vertical">
           <ProFormSelect
             name="email"
             label="Email"
             placeholder="Chọn email"
-            rules={[
-              { required: true, message: "Email là bắt buộc!" },
-            ]}
+            rules={[{ required: true, message: "Email là bắt buộc!" }]}
             showSearch
             request={async () => {
               const res = await getCustomer();
               return res?.data?.map((it) => ({
                 label: it.email,
                 value: it.id,
-              }))
+              }));
             }}
           />
           <ProFormDigit
             name="balance"
             label="Balance"
             placeholder="Nhập balance"
-            rules={[
-              { required: true, message: "Balance là bắt buộc!" },
-            ]}
+            rules={[{ required: true, message: "Balance là bắt buộc!" }]}
           />
         </Form>
       </Card>
     </Modal>
-  )
+  );
 };
 
 export default NapTienForm;

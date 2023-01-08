@@ -56,7 +56,13 @@ import {
 function DashboardNavbar({ absolute, light, isMini }) {
   const [navbarType, setNavbarType] = useState();
   const [controller, dispatch] = useMaterialUIController();
-  const { miniSidenav, transparentNavbar, fixedNavbar, openConfigurator, darkMode } = controller;
+  const {
+    miniSidenav,
+    transparentNavbar,
+    fixedNavbar,
+    openConfigurator,
+    darkMode,
+  } = controller;
   const [openMenu, setOpenMenu] = useState(false);
   const navigate = useNavigate();
   const route = useLocation().pathname.split("/").slice(1);
@@ -71,7 +77,10 @@ function DashboardNavbar({ absolute, light, isMini }) {
 
     // A function that sets the transparent state of the navbar.
     function handleTransparentNavbar() {
-      setTransparentNavbar(dispatch, (fixedNavbar && window.scrollY === 0) || !fixedNavbar);
+      setTransparentNavbar(
+        dispatch,
+        (fixedNavbar && window.scrollY === 0) || !fixedNavbar
+      );
     }
 
     /** 
@@ -88,7 +97,8 @@ function DashboardNavbar({ absolute, light, isMini }) {
   }, [dispatch, fixedNavbar]);
 
   const handleMiniSidenav = () => setMiniSidenav(dispatch, !miniSidenav);
-  const handleConfiguratorOpen = () => setOpenConfigurator(dispatch, !openConfigurator);
+  const handleConfiguratorOpen = () =>
+    setOpenConfigurator(dispatch, !openConfigurator);
   const handleOpenMenu = (event) => setOpenMenu(event.currentTarget);
   const handleCloseMenu = () => setOpenMenu(false);
 
@@ -119,7 +129,10 @@ function DashboardNavbar({ absolute, light, isMini }) {
   );
 
   // Styles for the navbar icons
-  const iconsStyle = ({ palette: { dark, white, text }, functions: { rgba } }) => ({
+  const iconsStyle = ({
+    palette: { dark, white, text },
+    functions: { rgba },
+  }) => ({
     color: () => {
       let colorValue = light || darkMode ? white.main : dark.main;
 
@@ -135,11 +148,22 @@ function DashboardNavbar({ absolute, light, isMini }) {
     <AppBar
       position={absolute ? "absolute" : navbarType}
       color="inherit"
-      sx={(theme) => navbar(theme, { transparentNavbar, absolute, light, darkMode })}
+      sx={(theme) =>
+        navbar(theme, { transparentNavbar, absolute, light, darkMode })
+      }
     >
       <Toolbar sx={(theme) => navbarContainer(theme)}>
-        <MDBox color="inherit" mb={{ xs: 1, md: 0 }} sx={(theme) => navbarRow(theme, { isMini })}>
-          <Breadcrumbs icon="home" title={route[route.length - 1]} route={route} light={light} />
+        <MDBox
+          color="inherit"
+          mb={{ xs: 1, md: 0 }}
+          sx={(theme) => navbarRow(theme, { isMini })}
+        >
+          <Breadcrumbs
+            icon="home"
+            title={route[route.length - 1]}
+            route={route}
+            light={light}
+          />
         </MDBox>
         {isMini ? null : (
           <MDBox sx={(theme) => navbarRow(theme, { isMini })}>

@@ -30,7 +30,14 @@ import MDTypography from "components/MDTypography";
 import MDButton from "components/MDButton";
 import MDAvatar from "components/MDAvatar";
 
-function DefaultProjectCard({ image, label, title, description, action, authors }) {
+function DefaultProjectCard({
+  image,
+  label,
+  title,
+  description,
+  action,
+  authors,
+}) {
   const renderAuthors = authors.map(({ image: media, name }) => (
     <Tooltip key={name} title={name} placement="bottom">
       <MDAvatar
@@ -76,7 +83,12 @@ function DefaultProjectCard({ image, label, title, description, action, authors 
         />
       </MDBox>
       <MDBox mt={1} mx={0.5}>
-        <MDTypography variant="button" fontWeight="regular" color="text" textTransform="capitalize">
+        <MDTypography
+          variant="button"
+          fontWeight="regular"
+          color="text"
+          textTransform="capitalize"
+        >
           {label}
         </MDTypography>
         <MDBox mb={1}>
@@ -107,7 +119,11 @@ function DefaultProjectCard({ image, label, title, description, action, authors 
             {description}
           </MDTypography>
         </MDBox>
-        <MDBox display="flex" justifyContent="space-between" alignItems="center">
+        <MDBox
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
+        >
           {action.type === "internal" ? (
             <MDButton
               component={Link}

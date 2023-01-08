@@ -3,7 +3,7 @@ import LocaleProTable from "components/Locale";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import { getTransaction } from "services/transaction";
-import moment from 'moment';
+import moment from "moment";
 import { useSelector } from "react-redux";
 import { customerInfo } from "slices/customerSlice";
 import { getTransactionByCustomer } from "services/transaction";
@@ -13,15 +13,18 @@ import { useState } from "react";
 
 const Transaction = () => {
   const [dates, setDates] = useState(null);
-  const [value, setValue] = useState([moment().startOf("month"), moment().endOf("month")]);
+  const [value, setValue] = useState([
+    moment().startOf("month"),
+    moment().endOf("month"),
+  ]);
   const customer = useSelector(customerInfo);
 
   const disabledDate = (current) => {
     if (!dates) {
       return false;
     }
-    const tooLate = dates[0] && current.diff(dates[0], 'days') > 30;
-    const tooEarly = dates[1] && dates[1].diff(current, 'days') > 30;
+    const tooLate = dates[0] && current.diff(dates[0], "days") > 30;
+    const tooEarly = dates[1] && dates[1].diff(current, "days") > 30;
     return !!tooEarly || !!tooLate;
   };
 
@@ -35,15 +38,15 @@ const Transaction = () => {
 
   const columns = [
     {
-      title: 'STT',
-      dataIndex: 'index',
-      valueType: 'index',
+      title: "STT",
+      dataIndex: "index",
+      valueType: "index",
       width: 80,
     },
     {
-      title: 'Bank',
-      dataIndex: 'bank',
-      key: 'bank',
+      title: "Bank",
+      dataIndex: "bank",
+      key: "bank",
       width: 50,
       ellipse: true,
       render: (_, record) => {
@@ -52,60 +55,60 @@ const Transaction = () => {
         return <Tag>{record?.bank}</Tag>;
       },
       valueEnum: {
-        iBank: { text: 'iBank' },
-        Abine: { text: 'Abine' }
-      }
+        iBank: { text: "iBank" },
+        Abine: { text: "Abine" },
+      },
     },
     {
-      title: 'Thời gian',
-      dataIndex: 'date',
+      title: "Thời gian",
+      dataIndex: "date",
       width: 50,
       ellipse: true,
       hideInTable: true,
-      valueType: 'dateRange',
+      valueType: "dateRange",
       fieldProps: {
         allowClear: false,
         disabledDate: disabledDate,
         onCalendarChange: (val) => setDates(val),
         value: dates || value,
         onChange: (val) => setValue(val),
-        onOpenChange: onOpenChange
+        onOpenChange: onOpenChange,
       },
       initialValue: [moment().startOf("month"), moment().endOf("month")],
     },
     {
-      title: 'Type',
-      dataIndex: 'type',
+      title: "Type",
+      dataIndex: "type",
       width: 50,
       ellipse: true,
-      search: false
+      search: false,
     },
     {
-      title: 'Amount',
-      dataIndex: 'amount',
+      title: "Amount",
+      dataIndex: "amount",
       width: 100,
       ellipse: true,
-      search: false
+      search: false,
     },
     {
-      title: 'Content',
-      dataIndex: 'contentTransaction',
+      title: "Content",
+      dataIndex: "contentTransaction",
       width: 100,
       ellipse: true,
-      search: false
+      search: false,
     },
     {
-      title: 'From Name',
-      dataIndex: 'fromName',
+      title: "From Name",
+      dataIndex: "fromName",
       width: 100,
       ellipse: true,
-      search: false
+      search: false,
     },
     {
-      title: 'Created At',
-      dataIndex: 'createdAt',
+      title: "Created At",
+      dataIndex: "createdAt",
       width: 100,
-      key: 'from',
+      key: "from",
       ellipse: true,
       search: false,
       render: (_, record) => {
@@ -113,15 +116,15 @@ const Transaction = () => {
       },
     },
     {
-      title: 'Updated At',
-      dataIndex: 'updatedAt',
+      title: "Updated At",
+      dataIndex: "updatedAt",
       width: 100,
       ellipse: true,
       search: false,
-      key: 'to',
+      key: "to",
       render: (_, record) => {
         return moment(record?.updatedAt).format("DD/MM/YYYY HH:mm:ss");
-      }
+      },
     },
   ];
 
@@ -134,7 +137,8 @@ const Transaction = () => {
           rowKey={(r, i) => i}
           pagination={{
             pageSize: 10,
-            showTotal: (total, range) => `${range[0]}-${range[1]} trên ${total} transaction`,
+            showTotal: (total, range) =>
+              `${range[0]}-${range[1]} trên ${total} transaction`,
           }}
           params={{ customer }}
           request={async (params) => {
@@ -144,7 +148,7 @@ const Transaction = () => {
               params.to = params.date[1];
               delete params.date;
             }
-            if (customer.type === 'admin') return await getTransaction(params);
+            if (customer.type === "admin") return await getTransaction(params);
             return await getTransactionByCustomer(customer.id, params);
           }}
           headerTitle={`Transaction`}
@@ -152,7 +156,7 @@ const Transaction = () => {
       </LocaleProTable>
       <Footer />
     </DashboardLayout>
-  )
+  );
 };
 
 export default Transaction;

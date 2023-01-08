@@ -1,9 +1,9 @@
-import { ProFormText } from '@ant-design/pro-components';
-import { useReactive } from 'ahooks';
-import { Modal, Form, Card, message } from 'antd';
-import to from 'await-to-js';
-import { useEffect } from 'react';
-import { createReceiver } from 'services/receiver';
+import { ProFormText } from "@ant-design/pro-components";
+import { useReactive } from "ahooks";
+import { Modal, Form, Card, message } from "antd";
+import to from "await-to-js";
+import { useEffect } from "react";
+import { createReceiver } from "services/receiver";
 
 const ReceiverForm = (props) => {
   const [form] = Form.useForm();
@@ -23,10 +23,12 @@ const ReceiverForm = (props) => {
       return;
     }
 
-    const [err_1] = await to(createReceiver({
-      remindName: form.getFieldValue("name"),
-      accountNumber: form.getFieldValue("account"),
-    }));
+    const [err_1] = await to(
+      createReceiver({
+        remindName: form.getFieldValue("name"),
+        accountNumber: form.getFieldValue("account"),
+      })
+    );
 
     if (err_1) {
       message.error(err_1?.response?.data?.message || err_1.message);
@@ -51,30 +53,23 @@ const ReceiverForm = (props) => {
       onCancel={onCancel}
     >
       <Card>
-        <Form
-          form={form}
-          layout='vertical'
-        >
+        <Form form={form} layout="vertical">
           <ProFormText
             name="name"
             label="Name"
             placeholder="Nhập name"
-            rules={[
-              { required: true, message: "Name là bắt buộc!" },
-            ]}
+            rules={[{ required: true, message: "Name là bắt buộc!" }]}
           />
           <ProFormText
             name="account"
             label="Account Number"
             placeholder="Nhập account number"
-            rules={[
-              { required: true, message: "Account number là bắt buộc!" },
-            ]}
+            rules={[{ required: true, message: "Account number là bắt buộc!" }]}
           />
         </Form>
       </Card>
     </Modal>
-  )
+  );
 };
 
 export default ReceiverForm;

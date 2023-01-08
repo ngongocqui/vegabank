@@ -1,6 +1,6 @@
 import { ProTable } from "@ant-design/pro-components";
-import { Tag, Button } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
+import { Tag, Button } from "antd";
+import { PlusOutlined } from "@ant-design/icons";
 import LocaleProTable from "components/Locale";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
@@ -20,51 +20,51 @@ const Account = () => {
     },
     napTien: {
       visible: false,
-    }
+    },
   });
 
   const columns = [
     {
-      title: 'STT',
-      dataIndex: 'index',
-      valueType: 'index',
+      title: "STT",
+      dataIndex: "index",
+      valueType: "index",
       width: 80,
     },
     {
-      title: 'Account Number',
-      dataIndex: 'accountNumber',
+      title: "Account Number",
+      dataIndex: "accountNumber",
       width: 150,
-      ellipse: true
+      ellipse: true,
     },
     {
-      title: 'Type',
-      dataIndex: 'type',
+      title: "Type",
+      dataIndex: "type",
       width: 150,
-      ellipse: true
+      ellipse: true,
     },
     {
-      title: 'Balance',
-      dataIndex: 'balance',
+      title: "Balance",
+      dataIndex: "balance",
       width: 150,
-      ellipse: true
+      ellipse: true,
     },
     {
-      title: 'Created At',
-      dataIndex: 'createdAt',
+      title: "Created At",
+      dataIndex: "createdAt",
       width: 100,
       ellipse: true,
       render: (_, record) => {
         return moment(record?.createdAt).format("DD/MM/YYYY HH:mm:ss");
-      }
+      },
     },
     {
-      title: 'Updated At',
-      dataIndex: 'updatedAt',
+      title: "Updated At",
+      dataIndex: "updatedAt",
       width: 100,
       ellipse: true,
       render: (_, record) => {
         return moment(record?.updatedAt).format("DD/MM/YYYY HH:mm:ss");
-      }
+      },
     },
   ];
 
@@ -79,7 +79,8 @@ const Account = () => {
           rowKey={(r, i) => i}
           pagination={{
             pageSize: 10,
-            showTotal: (total, range) => `${range[0]}-${range[1]} trên ${total} account`,
+            showTotal: (total, range) =>
+              `${range[0]}-${range[1]} trên ${total} account`,
           }}
           request={async () => {
             return await getAccount();
@@ -106,11 +107,17 @@ const Account = () => {
             </Button>,
           ]}
         />
-        <CustomerForm state={state.customerForm} reload={() => actionRef.current?.reload()} />
-        <NapTienForm state={state.napTien} reload={() => actionRef.current?.reload()} />
+        <CustomerForm
+          state={state.customerForm}
+          reload={() => actionRef.current?.reload()}
+        />
+        <NapTienForm
+          state={state.napTien}
+          reload={() => actionRef.current?.reload()}
+        />
       </LocaleProTable>
     </DashboardLayout>
-  )
+  );
 };
 
 export default Account;

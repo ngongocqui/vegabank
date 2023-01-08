@@ -144,7 +144,11 @@ function Cover() {
                   if (!state.email) {
                     message.error("Bạn chưa nhập email!");
                     return;
-                  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(state.email)) {
+                  } else if (
+                    !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(
+                      state.email
+                    )
+                  ) {
                     message.error("Email không hợp lệ!");
                     return;
                   }
@@ -158,12 +162,14 @@ function Cover() {
                     message.warning("Bạn chưa chấp nhận điều khoản!");
                     return;
                   }
-                  
-                  const [err] = await to(registerUser({
-                    email: state.email,
-                    password: state.password,
-                    name: state.name,
-                  }));
+
+                  const [err] = await to(
+                    registerUser({
+                      email: state.email,
+                      password: state.password,
+                      name: state.name,
+                    })
+                  );
 
                   if (err) {
                     message.error(err?.response?.data?.message || err.message);

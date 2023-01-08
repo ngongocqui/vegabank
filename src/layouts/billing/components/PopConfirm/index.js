@@ -16,13 +16,11 @@ const CloseAccount = (props) => {
         state.visible = false;
         message.success("Bạn đã đóng tài khoản");
       }}
-      onCancel={() => state.visible = false}
+      onCancel={() => (state.visible = false)}
     >
-      <Button onClick={() => state.visible = true}>
-        Đóng tài khoản
-      </Button>
+      <Button onClick={() => (state.visible = true)}>Đóng tài khoản</Button>
     </Popconfirm>
-  )
+  );
 };
 
 export default CloseAccount;

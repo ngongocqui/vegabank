@@ -60,7 +60,12 @@ function SimpleBlogCard({ image, title, description, action }) {
         />
       </MDBox>
       <MDBox p={3}>
-        <MDTypography display="inline" variant="h3" textTransform="capitalize" fontWeight="bold">
+        <MDTypography
+          display="inline"
+          variant="h3"
+          textTransform="capitalize"
+          fontWeight="bold"
+        >
           {title}
         </MDTypography>
         <MDBox mt={2} mb={3}>
@@ -70,11 +75,15 @@ function SimpleBlogCard({ image, title, description, action }) {
         </MDBox>
         {action.type === "external" ? (
           <MuiLink href={action.route} target="_blank" rel="noreferrer">
-            <MDButton color={action.color ? action.color : "dark"}>{action.label}</MDButton>
+            <MDButton color={action.color ? action.color : "dark"}>
+              {action.label}
+            </MDButton>
           </MuiLink>
         ) : (
           <Link to={action.route}>
-            <MDButton color={action.color ? action.color : "dark"}>{action.label}</MDButton>
+            <MDButton color={action.color ? action.color : "dark"}>
+              {action.label}
+            </MDButton>
           </Link>
         )}
       </MDBox>

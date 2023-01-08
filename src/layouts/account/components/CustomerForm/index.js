@@ -1,8 +1,8 @@
-import { ProFormText } from '@ant-design/pro-components';
-import { useReactive } from 'ahooks';
-import { Modal, Form, Card, message } from 'antd';
-import to from 'await-to-js';
-import { registerUser } from 'services/auth';
+import { ProFormText } from "@ant-design/pro-components";
+import { useReactive } from "ahooks";
+import { Modal, Form, Card, message } from "antd";
+import to from "await-to-js";
+import { registerUser } from "services/auth";
 
 const CustomerForm = (props) => {
   const [form] = Form.useForm();
@@ -17,11 +17,13 @@ const CustomerForm = (props) => {
       return;
     }
 
-    const [err_1] = await to(registerUser({
-      email: form.getFieldValue("email"),
-      password: form.getFieldValue("password"),
-      name: form.getFieldValue("name"),
-    }));
+    const [err_1] = await to(
+      registerUser({
+        email: form.getFieldValue("email"),
+        password: form.getFieldValue("password"),
+        name: form.getFieldValue("name"),
+      })
+    );
 
     if (err_1) {
       message.error(err_1?.response?.data?.message || err_1.message);
@@ -45,7 +47,7 @@ const CustomerForm = (props) => {
       onCancel={onCancel}
     >
       <Card>
-        <Form form={form} layout='vertical'>
+        <Form form={form} layout="vertical">
           <ProFormText
             name="email"
             label="Email"
@@ -55,34 +57,33 @@ const CustomerForm = (props) => {
               {
                 validator: (rule, value, callback) => {
                   if (!value) return callback();
-                  const reg = new RegExp(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/, 'i');
+                  const reg = new RegExp(
+                    /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/,
+                    "i"
+                  );
                   if (value.length !== 0 && !reg.test(value))
-                    return callback('Email không đúng định dạng!');
+                    return callback("Email không đúng định dạng!");
                   return callback();
                 },
-              }
+              },
             ]}
           />
           <ProFormText.Password
             name="password"
             label="Password"
             placeholder="Nhập password"
-            rules={[
-              { required: true, message: "Password là bắt buộc!" },
-            ]}
+            rules={[{ required: true, message: "Password là bắt buộc!" }]}
           />
           <ProFormText
             name="name"
             label="Name"
             placeholder="Nhập name"
-            rules={[
-              { required: true, message: "Name là bắt buộc!" },
-            ]}
+            rules={[{ required: true, message: "Name là bắt buộc!" }]}
           />
         </Form>
       </Card>
     </Modal>
-  )
+  );
 };
 
 export default CustomerForm;

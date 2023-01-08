@@ -1,7 +1,7 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  data: []
+  data: [],
 };
 
 export const accountSlice = createSlice({
@@ -10,23 +10,24 @@ export const accountSlice = createSlice({
   reducers: {
     updateAccountInfo: (state, action) => {
       const fields = action.payload;
-      Object.keys(fields).map(k => {
+      Object.keys(fields).map((k) => {
         state[k] = fields[k];
       });
     },
     resetAllAccount: (state, _) => {
-      Object.keys(initialState).map(k => {
+      Object.keys(initialState).map((k) => {
         state[k] = initialState[k];
       });
     },
     resetField: (state, action) => {
       const { field } = action.payload;
       state[field] = initialState[field];
-    }
-  }
+    },
+  },
 });
 
-export const { updateAccountInfo, resetAllAccount, resetField } = accountSlice.actions;
+export const { updateAccountInfo, resetAllAccount, resetField } =
+  accountSlice.actions;
 
 export const accountInfo = (state) => state.account;
 

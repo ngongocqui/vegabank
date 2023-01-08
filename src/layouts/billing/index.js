@@ -24,7 +24,17 @@ import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 import MasterCard from "examples/Cards/MasterCard";
-import { Button, Card, Divider, message, Popconfirm, Row, Space, Tag, Typography } from "antd";
+import {
+  Button,
+  Card,
+  Divider,
+  message,
+  Popconfirm,
+  Row,
+  Space,
+  Tag,
+  Typography,
+} from "antd";
 import { accountInfo } from "slices/accountSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { ProFormDigit, ProFormText } from "@ant-design/pro-components";
@@ -57,15 +67,15 @@ function Billing() {
     },
     sendOTPLienNganHang: {
       visible: false,
-      id: null
+      id: null,
     },
     sendOTP: {
       visible: false,
-      id: null
+      id: null,
     },
     receiverForm: {
       visible: false,
-      account: ""
+      account: "",
     },
     receiverLienNganHangForm: {
       visible: false,
@@ -85,28 +95,38 @@ function Billing() {
                 title={
                   <Space>
                     <Typography.Text>{`Tài khoản ${i + 1}`}</Typography.Text>
-                    <Tag color={it.status === "ACTIVE" ? "success" : "red"}>{it.status}</Tag>
+                    <Tag color={it.status === "ACTIVE" ? "success" : "red"}>
+                      {it.status}
+                    </Tag>
                   </Space>
                 }
               >
                 <Form initialValues={it}>
-                  <ProFormText name="accountNumber" label="Account Number" disabled />
+                  <ProFormText
+                    name="accountNumber"
+                    label="Account Number"
+                    disabled
+                  />
                   <ProFormText name="type" label="Type" disabled />
                   <ProFormDigit name="balance" label="Balance" disabled />
                 </Form>
                 {it.status === "ACTIVE" && (
-                  <div style={{ display: 'flex', justifyContent: "flex-end" }}>
+                  <div style={{ display: "flex", justifyContent: "flex-end" }}>
                     <CloseAccount id={it.id} />
                   </div>
                 )}
               </Card>
-            )
+            );
           })}
         </Space>
         <Divider />
         <Space>
-          <Button type="primary" onClick={() => state.napTien.visible = true}>Chuyển khoản nội bộ</Button>
-          <Button onClick={() => state.napTienLienNganHang.visible = true}>Chuyển khoản liên ngân hàng</Button>
+          <Button type="primary" onClick={() => (state.napTien.visible = true)}>
+            Chuyển khoản nội bộ
+          </Button>
+          <Button onClick={() => (state.napTienLienNganHang.visible = true)}>
+            Chuyển khoản liên ngân hàng
+          </Button>
         </Space>
         <NapTienForm
           state={state.napTien}

@@ -1,6 +1,6 @@
 import { ProTable } from "@ant-design/pro-components";
-import { Tag, Button, Space, message } from 'antd';
-import { PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { Tag, Button, Space, message } from "antd";
+import { PlusOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import LocaleProTable from "components/Locale";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
@@ -25,57 +25,57 @@ const Receiver = () => {
     },
     napTien: {
       visible: false,
-    }
+    },
   });
 
   const columns = [
     {
-      title: 'STT',
-      dataIndex: 'index',
-      valueType: 'index',
+      title: "STT",
+      dataIndex: "index",
+      valueType: "index",
       width: 80,
     },
     {
-      title: 'Account Number',
-      dataIndex: 'accountNumber',
+      title: "Account Number",
+      dataIndex: "accountNumber",
       width: 150,
-      ellipse: true
+      ellipse: true,
     },
     {
-      title: 'Name',
-      dataIndex: 'remindName',
+      title: "Name",
+      dataIndex: "remindName",
       width: 150,
-      ellipse: true
+      ellipse: true,
     },
     {
-      title: 'Created At',
-      dataIndex: 'createdAt',
+      title: "Created At",
+      dataIndex: "createdAt",
       width: 200,
       ellipse: true,
       render: (_, record) => {
         return moment(record?.createdAt).format("DD/MM/YYYY HH:mm:ss");
-      }
+      },
     },
     {
-      title: 'Updated At',
-      dataIndex: 'updatedAt',
+      title: "Updated At",
+      dataIndex: "updatedAt",
       width: 200,
       ellipse: true,
       render: (_, record) => {
         return moment(record?.updatedAt).format("DD/MM/YYYY HH:mm:ss");
-      }
+      },
     },
     {
-      title: 'Tuỳ chỉnh',
-      valueType: 'option',
+      title: "Tuỳ chỉnh",
+      valueType: "option",
       width: 80,
       render: (_, record) => [
         <Space>
           <EditOutlined
             onClick={() => {
-              state.customerForm.visible = true
-              state.customerForm.type = "UPDATE"
-              state.customerForm.data = record
+              state.customerForm.visible = true;
+              state.customerForm.type = "UPDATE";
+              state.customerForm.data = record;
             }}
           />
           <DeleteOutlined
@@ -85,9 +85,9 @@ const Receiver = () => {
               message.success("Xoá thành công!");
             }}
           />
-        </Space>
-      ]
-    }
+        </Space>,
+      ],
+    },
   ];
 
   return (
@@ -101,7 +101,8 @@ const Receiver = () => {
           rowKey={(r, i) => i}
           pagination={{
             pageSize: 10,
-            showTotal: (total, range) => `${range[0]}-${range[1]} trên ${total} receiver`,
+            showTotal: (total, range) =>
+              `${range[0]}-${range[1]} trên ${total} receiver`,
           }}
           request={async () => {
             return await getReceiver();
@@ -122,19 +123,25 @@ const Receiver = () => {
               type="primary"
               onClick={() => {
                 state.customerForm.visible = true;
-                state.customerForm.type = "CREATE"
+                state.customerForm.type = "CREATE";
               }}
             >
               <PlusOutlined /> Tạo mới
             </Button>,
           ]}
         />
-        <CustomerForm state={state.customerForm} reload={() => actionRef.current?.reload()} />
-        <NapTienForm state={state.napTien} reload={() => actionRef.current?.reload()} />
+        <CustomerForm
+          state={state.customerForm}
+          reload={() => actionRef.current?.reload()}
+        />
+        <NapTienForm
+          state={state.napTien}
+          reload={() => actionRef.current?.reload()}
+        />
       </LocaleProTable>
       <Footer />
     </DashboardLayout>
-  )
+  );
 };
 
 export default Receiver;

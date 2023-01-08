@@ -105,7 +105,9 @@ PolarChart.propTypes = {
   }),
   title: PropTypes.string,
   description: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-  chart: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.array, PropTypes.object])).isRequired,
+  chart: PropTypes.objectOf(
+    PropTypes.oneOfType([PropTypes.array, PropTypes.object])
+  ).isRequired,
 };
 
 export default PolarChart;

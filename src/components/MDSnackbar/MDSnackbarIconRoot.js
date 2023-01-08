@@ -33,12 +33,16 @@ export default styled(Icon)(({ theme, ownerState }) => {
       ? linearGradient(gradients[color].main, gradients[color].state)
       : linearGradient(gradients.info.main, gradients.info.state);
   } else if (color === "light") {
-    backgroundImageValue = linearGradient(gradients.dark.main, gradients.dark.state);
+    backgroundImageValue = linearGradient(
+      gradients.dark.main,
+      gradients.dark.state
+    );
   }
 
   return {
     backgroundImage: backgroundImageValue,
-    WebkitTextFillColor: bgWhite || color === "light" ? transparent.main : white.main,
+    WebkitTextFillColor:
+      bgWhite || color === "light" ? transparent.main : white.main,
     WebkitBackgroundClip: "text",
     marginRight: pxToRem(8),
     fontSize: size.lg,

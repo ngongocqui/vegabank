@@ -23,9 +23,11 @@ const SendOTPLienNganHang = (props) => {
       return;
     }
 
-    const [err_1] = await to(sendMailLinkingBank(state.id, {
-      code: form.getFieldValue("code")
-    }));
+    const [err_1] = await to(
+      sendMailLinkingBank(state.id, {
+        code: form.getFieldValue("code"),
+      })
+    );
 
     if (err_1) {
       message.error(err_1?.response?.data?.message || err_1.message);
@@ -50,19 +52,17 @@ const SendOTPLienNganHang = (props) => {
       onCancel={onCancel}
     >
       <Card>
-        <Form form={form} layout='vertical'>
+        <Form form={form} layout="vertical">
           <ProFormText
             name="code"
             label="Mã OTP"
             placeholder="Nhập otp"
-            rules={[
-              { required: true, message: "Mã otp là bắt buộc!" },
-            ]}
+            rules={[{ required: true, message: "Mã otp là bắt buộc!" }]}
           />
         </Form>
       </Card>
     </Modal>
-  )
+  );
 };
 
 export default SendOTPLienNganHang;

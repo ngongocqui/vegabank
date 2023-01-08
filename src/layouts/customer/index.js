@@ -1,6 +1,6 @@
 import { ProTable } from "@ant-design/pro-components";
-import { Tag, Button, Space } from 'antd';
-import { PlusOutlined, EditOutlined } from '@ant-design/icons';
+import { Tag, Button, Space } from "antd";
+import { PlusOutlined, EditOutlined } from "@ant-design/icons";
 import LocaleProTable from "components/Locale";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
@@ -22,32 +22,32 @@ const Customer = () => {
     },
     createAccountForm: {
       visible: false,
-      data: null
-    }
+      data: null,
+    },
   });
 
   const columns = [
     {
-      title: 'STT',
-      dataIndex: 'index',
-      valueType: 'index',
+      title: "STT",
+      dataIndex: "index",
+      valueType: "index",
       width: 80,
     },
     {
-      title: 'Email',
-      dataIndex: 'email',
+      title: "Email",
+      dataIndex: "email",
       width: 150,
-      ellipse: true
+      ellipse: true,
     },
     {
-      title: 'Name',
-      dataIndex: 'name',
+      title: "Name",
+      dataIndex: "name",
       width: 150,
-      ellipse: true
+      ellipse: true,
     },
     {
-      title: 'Xác thực',
-      dataIndex: 'is_confirmed',
+      title: "Xác thực",
+      dataIndex: "is_confirmed",
       width: 100,
       ellipse: true,
       render: (_, record) => {
@@ -55,12 +55,12 @@ const Customer = () => {
           <Tag color={record?.is_confirmed ? "success" : "error"}>
             {record?.is_confirmed ? "Đã xác thực" : "Chưa xác thực"}
           </Tag>
-        )
-      }
+        );
+      },
     },
     {
-      title: 'Tuỳ chỉnh',
-      valueType: 'option',
+      title: "Tuỳ chỉnh",
+      valueType: "option",
       width: 50,
       render: (_, record) => [
         <Space>
@@ -70,9 +70,9 @@ const Customer = () => {
               state.createAccountForm.data = record;
             }}
           />
-        </Space>
-      ]
-    }
+        </Space>,
+      ],
+    },
   ];
 
   return (
@@ -86,7 +86,8 @@ const Customer = () => {
           rowKey={(r, i) => i}
           pagination={{
             pageSize: 10,
-            showTotal: (total, range) => `${range[0]}-${range[1]} trên ${total} customer`,
+            showTotal: (total, range) =>
+              `${range[0]}-${range[1]} trên ${total} customer`,
           }}
           request={async () => {
             return await getCustomer();
@@ -113,12 +114,21 @@ const Customer = () => {
             </Button>,
           ]}
         />
-        <CustomerForm state={state.customerForm} reload={() => actionRef.current?.reload()} />
-        <NapTienForm state={state.napTien} reload={() => actionRef.current?.reload()} />
-        <CreateAccountForm state={state.createAccountForm} reload={() => actionRef.current?.reload()} />
+        <CustomerForm
+          state={state.customerForm}
+          reload={() => actionRef.current?.reload()}
+        />
+        <NapTienForm
+          state={state.napTien}
+          reload={() => actionRef.current?.reload()}
+        />
+        <CreateAccountForm
+          state={state.createAccountForm}
+          reload={() => actionRef.current?.reload()}
+        />
       </LocaleProTable>
     </DashboardLayout>
-  )
+  );
 };
 
 export default Customer;

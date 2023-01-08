@@ -1,9 +1,9 @@
-import { ProFormDigit, ProFormSelect } from '@ant-design/pro-components';
-import { useReactive } from 'ahooks';
-import { Modal, Form, Card, message } from 'antd';
-import to from 'await-to-js';
-import { getAccount } from 'services/account';
-import { updateBalance } from 'services/account';
+import { ProFormDigit, ProFormSelect } from "@ant-design/pro-components";
+import { useReactive } from "ahooks";
+import { Modal, Form, Card, message } from "antd";
+import to from "await-to-js";
+import { getAccount } from "services/account";
+import { updateBalance } from "services/account";
 
 const NapTienForm = (props) => {
   const [form] = Form.useForm();
@@ -18,9 +18,11 @@ const NapTienForm = (props) => {
       return;
     }
 
-    const [err_1] = await to(updateBalance(form.getFieldValue("account"), {
-      balance: form.getFieldValue("balance"),
-    }));
+    const [err_1] = await to(
+      updateBalance(form.getFieldValue("account"), {
+        balance: form.getFieldValue("balance"),
+      })
+    );
 
     if (err_1) {
       message.error(err_1?.response?.data?.message || err_1.message);
@@ -44,35 +46,31 @@ const NapTienForm = (props) => {
       onCancel={onCancel}
     >
       <Card>
-        <Form form={form} layout='vertical'>
+        <Form form={form} layout="vertical">
           <ProFormSelect
             name="account"
             label="Account Number"
             placeholder="Chọn account number"
-            rules={[
-              { required: true, message: "Account number là bắt buộc!" },
-            ]}
+            rules={[{ required: true, message: "Account number là bắt buộc!" }]}
             showSearch
             request={async () => {
               const res = await getAccount();
               return res?.data?.map((it) => ({
                 label: it.accountNumber,
                 value: it.id,
-              }))
+              }));
             }}
           />
           <ProFormDigit
             name="balance"
             label="Balance"
             placeholder="Nhập balance"
-            rules={[
-              { required: true, message: "Balance là bắt buộc!" },
-            ]}
+            rules={[{ required: true, message: "Balance là bắt buộc!" }]}
           />
         </Form>
       </Card>
     </Modal>
-  )
+  );
 };
 
 export default NapTienForm;
