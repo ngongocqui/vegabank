@@ -79,19 +79,39 @@ function Basic() {
           <MDTypography variant="h4" fontWeight="medium" color="white" mt={1}>
             Sign in
           </MDTypography>
-          <Grid container spacing={3} justifyContent="center" sx={{ mt: 1, mb: 2 }}>
+          <Grid
+            container
+            spacing={3}
+            justifyContent="center"
+            sx={{ mt: 1, mb: 2 }}
+          >
             <Grid item xs={2}>
-              <MDTypography component={MuiLink} href="#" variant="body1" color="white">
+              <MDTypography
+                component={MuiLink}
+                href="#"
+                variant="body1"
+                color="white"
+              >
                 <FacebookIcon color="inherit" />
               </MDTypography>
             </Grid>
             <Grid item xs={2}>
-              <MDTypography component={MuiLink} href="#" variant="body1" color="white">
+              <MDTypography
+                component={MuiLink}
+                href="#"
+                variant="body1"
+                color="white"
+              >
                 <GitHubIcon color="inherit" />
               </MDTypography>
             </Grid>
             <Grid item xs={2}>
-              <MDTypography component={MuiLink} href="#" variant="body1" color="white">
+              <MDTypography
+                component={MuiLink}
+                href="#"
+                variant="body1"
+                color="white"
+              >
                 <GoogleIcon color="inherit" />
               </MDTypography>
             </Grid>
@@ -122,7 +142,7 @@ function Basic() {
               />
             </MDBox>
             <ReCAPTCHA
-              sitekey="6Ld9RT4jAAAAAOPCLy6uZ3zBAs7TAPRUDkOW74jK"
+              sitekey="6LcCJdwjAAAAAK1K7mXSps5QkJLuwn0K3zkdha17"
               onChange={(e) => {
                 state.captcha = e;
               }}
@@ -146,10 +166,12 @@ function Basic() {
                     return;
                   }
 
-                  const [err, res] = await to(loginUser({
-                    email: state.email,
-                    password: state.password,
-                  }))
+                  const [err, res] = await to(
+                    loginUser({
+                      email: state.email,
+                      password: state.password,
+                    })
+                  );
                   if (err) {
                     message.error(err?.response?.data?.message || err.message);
                     return;
