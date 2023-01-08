@@ -17,3 +17,9 @@ export const sendMailLinkingBank = (id, body) => {
     headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
   });
 };
+
+export const createReceiverLinkingBank = (body) => {
+  return API.post(`linking-banks/createReceiver`, body, {
+    headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+  });
+};
