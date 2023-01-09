@@ -1,6 +1,6 @@
 import { ProTable } from "@ant-design/pro-components";
 import { Tag, Button, Space, Switch, message } from "antd";
-import { PlusOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import { PlusOutlined, EditOutlined, DeleteOutlined, RollbackOutlined, CreditCardOutlined } from "@ant-design/icons";
 import LocaleProTable from "components/Locale";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
@@ -12,6 +12,8 @@ import { changeStatus } from "services/customer";
 import { getDebt } from "services/debt";
 import { deleteDebt } from "services/debt";
 import Footer from "examples/Footer";
+import CancelDebt from "./components/CancelDebt";
+import SendOTP from "layouts/billing/components/SendOTP";
 
 const Debt = () => {
   const actionRef = useRef();
@@ -20,6 +22,17 @@ const Debt = () => {
       visible: false,
       type: "CREATE",
       data: null
+    },
+    cancelDebt: {
+      visible: false,
+      data: null
+    },
+    napTien: {
+      visible: false,
+    },
+    sendOTP: {
+      visible: false,
+      id: null,
     },
   });
 
@@ -64,12 +77,23 @@ const Debt = () => {
       valueType: "option",
       width: 100,
       render: (_, record) => [
-        <Space>
+        <Space size={14}>
           <EditOutlined
             onClick={() => {
               state.customerForm.visible = true;
               state.customerForm.type = "UPDATE"
               state.customerForm.data = record
+            }}
+          />
+          <CreditCardOutlined
+            onClick={() => {
+              
+            }}
+          />
+          <RollbackOutlined
+            onClick={() => {
+              state.cancelDebt.visible = true;
+              state.cancelDebt.data = record;
             }}
           />
           <DeleteOutlined
@@ -119,6 +143,16 @@ const Debt = () => {
         <CustomerForm
           state={state.customerForm}
           reload={() => actionRef.current?.reload()}
+        />
+        <CancelDebt
+          state={state.cancelDebt}
+          reload={() => actionRef.current?.reload()}
+        />
+        <SendOTP
+          state={state.sendOTP}
+          reload={async () => {
+            actionRef.current?.reload()
+          }}
         />
       </LocaleProTable>
       <Footer />

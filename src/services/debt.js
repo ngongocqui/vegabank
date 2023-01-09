@@ -29,3 +29,9 @@ export const deleteDebt = (id) => {
     headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
   });
 };
+
+export const cancelDebt = (id, body) => {
+  return API.patch(`debt/cancelreminddebt/${id}`, body, {
+    headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+  });
+};
