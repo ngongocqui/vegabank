@@ -14,6 +14,8 @@ import { deleteDebt } from "services/debt";
 import Footer from "examples/Footer";
 import CancelDebt from "./components/CancelDebt";
 import SendOTP from "layouts/billing/components/SendOTP";
+import to from "await-to-js";
+import { createTransactionByCustomer } from "services/transaction";
 
 const Debt = () => {
   const actionRef = useRef();
@@ -86,8 +88,24 @@ const Debt = () => {
             }}
           />
           <CreditCardOutlined
-            onClick={() => {
-              
+            onClick={async () => {
+              const [err_1, res_1] = await to(
+                createTransactionByCustomer({
+                  fromAccount: record.debtor,
+                  toAccount: record.creditor,
+                  amount: record.amount,
+                  type: "SENDER",
+                  contentTransaction: record.contentDebt,
+                })
+              );
+
+              if (err_1) {
+                message.error(err_1?.response?.data?.message || err_1.message);
+                return;
+              }
+
+              state.sendOTP.visible = true;
+              state.sendOTP.id = res_1?.data?.data?._id;
             }}
           />
           <RollbackOutlined
