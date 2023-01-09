@@ -91,8 +91,8 @@ const Debt = () => {
             onClick={async () => {
               const [err_1, res_1] = await to(
                 createTransactionByCustomer({
-                  fromAccount: record.debtor,
-                  toAccount: record.creditor,
+                  fromAccount: record.creditor,
+                  toAccount: record.debtor,
                   amount: record.amount,
                   type: "SENDER",
                   contentTransaction: record.contentDebt,

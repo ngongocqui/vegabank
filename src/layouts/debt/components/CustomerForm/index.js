@@ -46,8 +46,8 @@ const CustomerForm = (props) => {
     if (state.type === "CREATE") {
       const [err_1] = await to(
         createDebt({
-          creditor: form.getFieldValue('source'),
-          debtor: form.getFieldValue("account"),
+          creditor: form.getFieldValue('account'),
+          debtor: form.getFieldValue("source"),
           amount: form.getFieldValue("amount"),
           contentDebt: form.getFieldValue("content"),
         })
@@ -61,8 +61,8 @@ const CustomerForm = (props) => {
     } else {
       const [err_1] = await to(
         updateDebt(props.state.data._id, {
-          creditor: form.getFieldValue('source'),
-          debtor: form.getFieldValue("account"),
+          creditor: form.getFieldValue('account'),
+          debtor: form.getFieldValue("source"),
           amount: form.getFieldValue("amount"),
           contentDebt: form.getFieldValue("content"),
         })
