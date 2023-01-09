@@ -1,8 +1,9 @@
+import { getToken } from "utils/utils";
 import API from "../utils/request";
 
 export const getCustomer = async (params = {}) => {
   const res = await API.get(`customer/findAll`, {
-    headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+    headers: { Authorization: `Bearer ${await getToken()}` },
     params
   });
   return {
@@ -12,20 +13,20 @@ export const getCustomer = async (params = {}) => {
   };
 };
 
-export const getCustomerFindOne = () => {
+export const getCustomerFindOne = async () => {
   return API.get(`customer`, {
-    headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+    headers: { Authorization: `Bearer ${await getToken()}` },
   });
 };
 
-export const updateCustomer = (id, body) => {
+export const updateCustomer = async (id, body) => {
   return API.patch(`customer/${id}`, body, {
-    headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+    headers: { Authorization: `Bearer ${await getToken()}` },
   });
 };
 
-export const changeStatus = (id, body) => {
+export const changeStatus = async (id, body) => {
   return API.patch(`customer/closeAccount/${id}`, body, {
-    headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+    headers: { Authorization: `Bearer ${await getToken()}` },
   });
 };

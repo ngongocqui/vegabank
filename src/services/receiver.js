@@ -1,8 +1,9 @@
+import { getToken } from "utils/utils";
 import API from "../utils/request";
 
 export const getReceiver = async () => {
   const res = await API.get(`receiver/bylogincustomerid`, {
-    headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+    headers: { Authorization: `Bearer ${await getToken()}` },
   });
   return {
     data: res?.data || [],
@@ -11,20 +12,20 @@ export const getReceiver = async () => {
   };
 };
 
-export const createReceiver = (body) => {
+export const createReceiver = async (body) => {
   return API.post(`receiver/createbyaccountnumber`, body, {
-    headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+    headers: { Authorization: `Bearer ${await getToken()}` },
   });
 };
 
-export const updateReceiver = (id, body) => {
+export const updateReceiver = async (id, body) => {
   return API.patch(`receiver/${id}`, body, {
-    headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+    headers: { Authorization: `Bearer ${await getToken()}` },
   });
 };
 
-export const deleteReceiver = (id) => {
+export const deleteReceiver = async (id) => {
   return API.delete(`receiver/${id}`, {
-    headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+    headers: { Authorization: `Bearer ${await getToken()}` },
   });
 };

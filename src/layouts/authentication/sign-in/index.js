@@ -178,7 +178,11 @@ function Basic() {
                   }
 
                   const token = res?.data?.data?.token || "";
+                  const refreshToken = res?.data?.data?.refreshToken || "";
+                  const accessTokenExpires = res?.data?.data?.tokenExp || "";
                   localStorage.setItem("token", token);
+                  localStorage.setItem("refreshToken", refreshToken);
+                  localStorage.setItem("accessTokenExpires", accessTokenExpires);
 
                   const [, res_1] = await to(getCustomerFindOne());
                   const customer = res_1?.data?.data?.customer || {};

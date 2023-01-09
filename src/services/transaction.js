@@ -1,8 +1,9 @@
+import { getToken } from "utils/utils";
 import API from "../utils/request";
 
 export const getTransaction = async (params = {}) => {
   const res = await API.get(`transaction`, {
-    headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+    headers: { Authorization: `Bearer ${await getToken()}` },
     params,
   });
   return {
@@ -14,7 +15,7 @@ export const getTransaction = async (params = {}) => {
 
 export const getTransactionByCustomer = async (customerId, params = {}) => {
   const res = await API.get(`transaction/byCustomerId/${customerId}`, {
-    headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+    headers: { Authorization: `Bearer ${await getToken()}` },
     params,
   });
   return {
@@ -24,14 +25,14 @@ export const getTransactionByCustomer = async (customerId, params = {}) => {
   };
 };
 
-export const createTransactionByCustomer = (body) => {
+export const createTransactionByCustomer = async (body) => {
   return API.post(`transaction/createbyaccountnumber`, body, {
-    headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+    headers: { Authorization: `Bearer ${await getToken()}` },
   });
 };
 
-export const sendMail = (id, body) => {
+export const sendMail = async (id, body) => {
   return API.patch(`transaction/updatebalance/${id}`, body, {
-    headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+    headers: { Authorization: `Bearer ${await getToken()}` },
   });
 };

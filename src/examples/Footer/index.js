@@ -18,6 +18,7 @@ import { useAsyncEffect } from "ahooks";
 import to from "await-to-js";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { getAccountFindOne } from "services/account";
 import { getCustomerFindOne } from "services/customer";
 import { updateAccountInfo } from "slices/accountSlice";
@@ -25,10 +26,16 @@ import { updateCustomerInfo } from "slices/customerSlice";
 
 function Footer() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useAsyncEffect(async () => {
     if (localStorage.getItem("token")) {
-      const [, res_1] = await to(getCustomerFindOne());
+      const [err_1, res_1] = await to(getCustomerFindOne());
+      if (err_1) {
+        localStorage.clear();
+        navigate("/authentication/sign-in");
+        return;
+      }
       const customer = res_1?.data?.data?.customer || {};
       dispatch(updateCustomerInfo(customer));
 

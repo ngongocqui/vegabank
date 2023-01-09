@@ -1,8 +1,9 @@
+import { getToken } from "utils/utils";
 import API from "../utils/request";
 
 export const getDebt = async (params = {}) => {
   const res = await API.get(`debt`, {
-    headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+    headers: { Authorization: `Bearer ${await getToken()}` },
     params
   });
   return {
@@ -12,26 +13,26 @@ export const getDebt = async (params = {}) => {
   };
 };
 
-export const createDebt = (body) => {
+export const createDebt = async (body) => {
   return API.post(`debt`, body, {
-    headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+    headers: { Authorization: `Bearer ${await getToken()}` },
   });
 };
 
-export const updateDebt = (id, body) => {
+export const updateDebt = async (id, body) => {
   return API.patch(`debt/${id}`, body, {
-    headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+    headers: { Authorization: `Bearer ${await getToken()}` },
   });
 };
 
-export const deleteDebt = (id) => {
+export const deleteDebt = async (id) => {
   return API.delete(`debt/${id}`, {
-    headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+    headers: { Authorization: `Bearer ${await getToken()}` },
   });
 };
 
-export const cancelDebt = (id, body) => {
+export const cancelDebt = async (id, body) => {
   return API.patch(`debt/cancelreminddebt/${id}`, body, {
-    headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+    headers: { Authorization: `Bearer ${await getToken()}` },
   });
 };
