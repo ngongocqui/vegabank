@@ -120,6 +120,8 @@ function DashboardNavbar({ absolute, light, isMini }) {
         title="Logout"
         onClick={() => {
           localStorage.removeItem("token");
+          localStorage.removeItem("refreshToken");
+          localStorage.clear("accessTokenExpires");
           navigate("/authentication/sign-in");
         }}
       />

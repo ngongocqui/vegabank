@@ -77,6 +77,20 @@ const Transaction = () => {
       initialValue: [moment().startOf("month"), moment().endOf("month")],
     },
     {
+      title: "From",
+      dataIndex: "fromAccountNumber",
+      width: 50,
+      ellipse: true,
+      search: false,
+    },
+    {
+      title: "To",
+      dataIndex: "toAccountNumber",
+      width: 50,
+      ellipse: true,
+      search: false,
+    },
+    {
       title: "Type",
       dataIndex: "type",
       width: 50,

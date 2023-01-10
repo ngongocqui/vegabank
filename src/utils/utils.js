@@ -5,14 +5,17 @@ import { getNewTokenByRefreshToken } from "services/auth";
 export const saveToken = ({ token, refreshToken, accessTokenExpires }) => {
   localStorage.setItem("token", token);
   localStorage.setItem("refreshToken", refreshToken);
-  localStorage.getItem("accessTokenExpires", accessTokenExpires);
+  localStorage.setItem("accessTokenExpires", accessTokenExpires);
 };
 
 export const getToken = async () => {
   const token = localStorage.getItem("token");
   const accessTokenExpires = localStorage.getItem("accessTokenExpires");
 
-  if (moment().valueOf() - moment(+accessTokenExpires * 1000).valueOf() > -1000) {
+  if (
+    moment().valueOf() - moment(+accessTokenExpires * 1000).valueOf() >
+    -1000
+  ) {
     const [err, res] = await to(getNewTokenByRefreshToken());
     if (err) return token;
 
