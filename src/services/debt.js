@@ -4,7 +4,7 @@ import API from "../utils/request";
 export const getDebt = async (params = {}) => {
   const res = await API.get(`debt`, {
     headers: { Authorization: `Bearer ${await getToken()}` },
-    params
+    params,
   });
   return {
     data: res?.data || [],
@@ -33,6 +33,18 @@ export const deleteDebt = async (id) => {
 
 export const cancelDebt = async (id, body) => {
   return API.patch(`debt/cancelreminddebt/${id}`, body, {
+    headers: { Authorization: `Bearer ${await getToken()}` },
+  });
+};
+
+export const payDebt = async (id, body) => {
+  return API.patch(`debt/payDebt/${id}`, body, {
+    headers: { Authorization: `Bearer ${await getToken()}` },
+  });
+};
+
+export const updateBalace = async (id, body) => {
+  return API.patch(`debt/updateBalance/${id}`, body, {
     headers: { Authorization: `Bearer ${await getToken()}` },
   });
 };
