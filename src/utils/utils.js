@@ -12,10 +12,10 @@ export const getToken = async () => {
   const token = localStorage.getItem("token");
   const accessTokenExpires = localStorage.getItem("accessTokenExpires");
 
-  if (moment().valueOf() - moment(+accessTokenExpires).valueOf() > -1000) {
+  if (moment().valueOf() - moment(+accessTokenExpires * 1000).valueOf() > -1000) {
     const [err, res] = await to(getNewTokenByRefreshToken());
     if (err) return token;
-    
+
     saveToken({
       token: res?.data?.data?.token,
       refreshToken: res?.data?.data?.refreshToken,

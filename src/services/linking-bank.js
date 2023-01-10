@@ -1,3 +1,4 @@
+import { getToken } from "utils/utils";
 import API from "../utils/request";
 
 export const createTransactionLinkingBank = async (body) => {
